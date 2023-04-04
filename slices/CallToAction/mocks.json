@@ -1,0 +1,52 @@
+[
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default",
+    "primary": {
+      "title": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading2",
+            "content": {
+              "text": "Lets's chat",
+              "spans": []
+            },
+            "direction": "ltr"
+          }
+        ]
+      },
+      "description": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Feel free to reach out if you want to chat or collaborate with us and Lisa will get back to you",
+              "spans": []
+            },
+            "direction": "ltr"
+          }
+        ]
+      },
+      "button_text": {
+        "__TYPE__": "FieldContent",
+        "type": "Text",
+        "value": "Contact us"
+      },
+      "button_link": {
+        "__TYPE__": "LinkContent",
+        "value": {
+          "__TYPE__": "ExternalLink",
+          "url": "https://slicemachine.dev"
+        }
+      }
+    },
+    "items": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": []
+      }
+    ]
+  }
+]
