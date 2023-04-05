@@ -28,7 +28,7 @@ const Hero = ({ slice }) => (
         <div className="teamWrapper">
             {
               slice?.items?.map((item, i) =>
-                <span className="content">
+                <span className="content" key={i}>
                   <div className='image'>
                     <img width='200px' height='200px' src={item.image.url} alt={item.image.alt} />
                   </div>

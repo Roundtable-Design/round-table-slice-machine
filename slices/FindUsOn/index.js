@@ -18,7 +18,7 @@ const FindUsOn = ({ slice }) => (
       <span className='linksWrapper'>
       {
         slice?.items?.map((item, i) =>
-        <div className='link'>
+        <div className='link' key={i}>
           <PrismicLink  field={item.link}>
             <span >{ item.link_title }</span>
           </PrismicLink>
