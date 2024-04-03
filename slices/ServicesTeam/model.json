@@ -1,0 +1,75 @@
+{
+  "id": "services_team",
+  "type": "SharedSlice",
+  "name": "ServicesTeam",
+  "description": "ServicesTeam",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title_text": {
+          "type": "Text",
+          "config": {
+            "label": "Title text",
+            "placeholder": ""
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,list-item,o-list-item,hyperlink"
+          }
+        },
+        "second_title_text": {
+          "type": "Text",
+          "config": {
+            "label": "Second title text ",
+            "placeholder": ""
+          }
+        },
+        "secondary_description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Secondary description",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,list-item,o-list-item,rtl,embed,image"
+          }
+        },
+        "button_text": {
+          "type": "Text",
+          "config": {
+            "label": "Button text",
+            "placeholder": ""
+          }
+        },
+        "button_description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Button description",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,list-item,o-list-item"
+          }
+        }
+      },
+      "items": {
+        "fullname": {
+          "type": "Text",
+          "config": {
+            "label": "Fullname",
+            "placeholder": ""
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,8 +1,7 @@
 {
   "apiEndpoint": "https://roundtable-with-slicemachine.prismic.io/api/v2",
-  "libraries": [
-    "@/slices"
-  ],
-  "_latest": "0.7.1",
+  "repositoryName": "roundtable-with-slicemachine",
+  "adapter": "@slicemachine/adapter-next",
+  "libraries": ["./slices"],
   "localSliceSimulatorURL": "http://localhost:3000/slice-simulator"
 }

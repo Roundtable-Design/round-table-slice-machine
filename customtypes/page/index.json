@@ -1,8 +1,9 @@
 {
   "id": "page",
-  "label": "Page",
+  "label": "homepage",
   "repeatable": true,
   "status": true,
+  "format": "custom",
   "json": {
     "Main": {
       "uid": {
@@ -17,7 +18,10 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "hero": {
+            "services_team": {
+              "type": "SharedSlice"
+            },
+            "header": {
               "type": "SharedSlice"
             },
             "find_us_on": {
