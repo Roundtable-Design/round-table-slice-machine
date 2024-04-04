@@ -4,7 +4,6 @@ import * as prismicH from "@prismicio/helpers";
 
 import { createClient } from "../prismicio";
 import { components } from "../slices/";
-
 /**
  * This component renders your homepage.
  *

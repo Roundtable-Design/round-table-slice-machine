@@ -1,5 +1,5 @@
 {
-  "format": "custom",
+  "format": "page",
   "id": "footer",
   "label": "Footer",
   "repeatable": false,
@@ -28,6 +28,26 @@
           "label": "Reviews",
           "placeholder": ""
         }
+      },
+      "privacy_link": {
+        "type": "Link",
+        "config": {
+          "label": "Privacy Link",
+          "placeholder": "",
+          "select": null
+        }
+      },
+      "cookie_link": {
+        "type": "Link",
+        "config": {
+          "label": "Cookie Link",
+          "placeholder": "",
+          "select": null
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone"
       }
     }
   }

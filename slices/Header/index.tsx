@@ -15,13 +15,13 @@ export type HeaderProps = SliceComponentProps<Content.HeaderSlice>;
 const Header = ({ slice }: HeaderProps): JSX.Element => {
   return (
     <section
-      className="py-10 px-10 flex flex-col"
+      className="m-2 mb-5 flex flex-col"
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
     >
       <PrismicNextImage
         field={slice.primary.logo}
-        className="rounded box-content"
+        className="box-content"
         width={100}
         height={100}
         alt=""

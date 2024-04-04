@@ -4,6 +4,8 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
+type FooterDocumentDataSlicesSlice = never;
+
 /**
  * Content for Footer documents
  */
@@ -40,6 +42,39 @@ interface FooterDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#embed
    */
   reviews: prismic.EmbedField;
+
+  /**
+   * Privacy Link field in *Footer*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: footer.privacy_link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  privacy_link: prismic.LinkField;
+
+  /**
+   * Cookie Link field in *Footer*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: footer.cookie_link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  cookie_link: prismic.LinkField;
+
+  /**
+   * `slices` field in *Footer*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: footer.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<FooterDocumentDataSlicesSlice>;
 }
 
 /**
@@ -59,10 +94,10 @@ export type FooterDocument<Lang extends string = string> =
   >;
 
 type PageDocumentDataSlicesSlice =
+  | ImagesSlice
+  | FooterSlice
   | ServicesTeamSlice
-  | HeaderSlice
-  | FindUsOnSlice
-  | CallToActionSlice;
+  | HeaderSlice;
 
 /**
  * Content for homepage documents
@@ -95,149 +130,76 @@ export type PageDocument<Lang extends string = string> =
 export type AllDocumentTypes = FooterDocument | PageDocument;
 
 /**
- * Primary content in *CallToAction → Primary*
+ * Primary content in *Footer → Primary*
  */
-export interface CallToActionSliceDefaultPrimary {
+export interface FooterSliceDefaultPrimary {
   /**
-   * Title field in *CallToAction → Primary*
+   * Title field in *Footer → Primary*
    *
-   * - **Field Type**: Title
+   * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: call_to_action.primary.title
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   * - **API ID Path**: footer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  title: prismic.TitleField;
+  title: prismic.KeyTextField;
 
   /**
-   * Description field in *CallToAction → Primary*
+   * Description field in *Footer → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: call_to_action.primary.description
+   * - **API ID Path**: footer.primary.description
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 
   /**
-   * Button Text field in *CallToAction → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: call_to_action.primary.button_text
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  button_text: prismic.KeyTextField;
-
-  /**
-   * Button Link field in *CallToAction → Primary*
+   * Privacy Link field in *Footer → Primary*
    *
    * - **Field Type**: Link
    * - **Placeholder**: *None*
-   * - **API ID Path**: call_to_action.primary.button_link
+   * - **API ID Path**: footer.primary.privacy_link
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  button_link: prismic.LinkField;
+  privacy_link: prismic.LinkField;
+
+  /**
+   * Cookie Link field in *Footer → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: footer.primary.cookie_link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  cookie_link: prismic.LinkField;
 }
 
 /**
- * Default variation for CallToAction Slice
+ * Default variation for Footer Slice
  *
  * - **API ID**: `default`
- * - **Description**: CallToAction
+ * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type CallToActionSliceDefault = prismic.SharedSliceVariation<
+export type FooterSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Simplify<CallToActionSliceDefaultPrimary>,
+  Simplify<FooterSliceDefaultPrimary>,
   never
 >;
 
 /**
- * Slice variation for *CallToAction*
+ * Slice variation for *Footer*
  */
-type CallToActionSliceVariation = CallToActionSliceDefault;
+type FooterSliceVariation = FooterSliceDefault;
 
 /**
- * CallToAction Shared Slice
+ * Footer Shared Slice
  *
- * - **API ID**: `call_to_action`
- * - **Description**: CallToAction
+ * - **API ID**: `footer`
+ * - **Description**: Footer
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type CallToActionSlice = prismic.SharedSlice<
-  "call_to_action",
-  CallToActionSliceVariation
->;
-
-/**
- * Primary content in *FindUsOn → Primary*
- */
-export interface FindUsOnSliceDefaultPrimary {
-  /**
-   * Title field in *FindUsOn → Primary*
-   *
-   * - **Field Type**: Title
-   * - **Placeholder**: *None*
-   * - **API ID Path**: find_us_on.primary.title
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  title: prismic.TitleField;
-}
-
-/**
- * Primary content in *FindUsOn → Items*
- */
-export interface FindUsOnSliceDefaultItem {
-  /**
-   * Link Title field in *FindUsOn → Items*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: find_us_on.items[].link_title
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  link_title: prismic.KeyTextField;
-
-  /**
-   * Link field in *FindUsOn → Items*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: find_us_on.items[].link
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  link: prismic.LinkField;
-}
-
-/**
- * Default variation for FindUsOn Slice
- *
- * - **API ID**: `default`
- * - **Description**: FindUsOn
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type FindUsOnSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<FindUsOnSliceDefaultPrimary>,
-  Simplify<FindUsOnSliceDefaultItem>
->;
-
-/**
- * Slice variation for *FindUsOn*
- */
-type FindUsOnSliceVariation = FindUsOnSliceDefault;
-
-/**
- * FindUsOn Shared Slice
- *
- * - **API ID**: `find_us_on`
- * - **Description**: FindUsOn
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type FindUsOnSlice = prismic.SharedSlice<
-  "find_us_on",
-  FindUsOnSliceVariation
->;
+export type FooterSlice = prismic.SharedSlice<"footer", FooterSliceVariation>;
 
 /**
  * Primary content in *Header → Primary*
@@ -290,93 +252,6 @@ type HeaderSliceVariation = HeaderSliceDefault;
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type HeaderSlice = prismic.SharedSlice<"header", HeaderSliceVariation>;
-
-/**
- * Primary content in *Team → Primary*
- */
-export interface HeroSliceDefaultPrimary {
-  /**
-   * Title field in *Team → Primary*
-   *
-   * - **Field Type**: Title
-   * - **Placeholder**: This is where it all begins...
-   * - **API ID Path**: hero.primary.title
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  title: prismic.TitleField;
-
-  /**
-   * Description field in *Team → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: A nice description of your feature
-   * - **API ID Path**: hero.primary.description
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  description: prismic.RichTextField;
-}
-
-/**
- * Primary content in *Team → Items*
- */
-export interface HeroSliceDefaultItem {
-  /**
-   * Image field in *Team → Items*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: hero.items[].image
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image: prismic.ImageField<never>;
-
-  /**
-   * Name field in *Team → Items*
-   *
-   * - **Field Type**: Title
-   * - **Placeholder**: *None*
-   * - **API ID Path**: hero.items[].name
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  name: prismic.TitleField;
-
-  /**
-   * Role field in *Team → Items*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: hero.items[].role
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  role: prismic.RichTextField;
-}
-
-/**
- * Default variation for Team Slice
- *
- * - **API ID**: `default`
- * - **Description**: Hero
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type HeroSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<HeroSliceDefaultPrimary>,
-  Simplify<HeroSliceDefaultItem>
->;
-
-/**
- * Slice variation for *Team*
- */
-type HeroSliceVariation = HeroSliceDefault;
-
-/**
- * Team Shared Slice
- *
- * - **API ID**: `hero`
- * - **Description**: Hero
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
 /**
  * Primary content in *Images → Items*
@@ -486,21 +361,6 @@ export interface ServicesTeamSliceDefaultPrimary {
 }
 
 /**
- * Primary content in *ServicesTeam → Items*
- */
-export interface ServicesTeamSliceDefaultItem {
-  /**
-   * Fullname field in *ServicesTeam → Items*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: services_team.items[].fullname
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  fullname: prismic.KeyTextField;
-}
-
-/**
  * Default variation for ServicesTeam Slice
  *
  * - **API ID**: `default`
@@ -510,7 +370,7 @@ export interface ServicesTeamSliceDefaultItem {
 export type ServicesTeamSliceDefault = prismic.SharedSliceVariation<
   "default",
   Simplify<ServicesTeamSliceDefaultPrimary>,
-  Simplify<ServicesTeamSliceDefaultItem>
+  never
 >;
 
 /**
@@ -542,35 +402,25 @@ declare module "@prismicio/client" {
     export type {
       FooterDocument,
       FooterDocumentData,
+      FooterDocumentDataSlicesSlice,
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
       AllDocumentTypes,
-      CallToActionSlice,
-      CallToActionSliceDefaultPrimary,
-      CallToActionSliceVariation,
-      CallToActionSliceDefault,
-      FindUsOnSlice,
-      FindUsOnSliceDefaultPrimary,
-      FindUsOnSliceDefaultItem,
-      FindUsOnSliceVariation,
-      FindUsOnSliceDefault,
+      FooterSlice,
+      FooterSliceDefaultPrimary,
+      FooterSliceVariation,
+      FooterSliceDefault,
       HeaderSlice,
       HeaderSliceDefaultPrimary,
       HeaderSliceVariation,
       HeaderSliceDefault,
-      HeroSlice,
-      HeroSliceDefaultPrimary,
-      HeroSliceDefaultItem,
-      HeroSliceVariation,
-      HeroSliceDefault,
       ImagesSlice,
       ImagesSliceDefaultItem,
       ImagesSliceVariation,
       ImagesSliceDefault,
       ServicesTeamSlice,
       ServicesTeamSliceDefaultPrimary,
-      ServicesTeamSliceDefaultItem,
       ServicesTeamSliceVariation,
       ServicesTeamSliceDefault,
     };

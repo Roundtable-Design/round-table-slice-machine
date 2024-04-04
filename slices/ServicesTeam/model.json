@@ -61,15 +61,7 @@
           }
         }
       },
-      "items": {
-        "fullname": {
-          "type": "Text",
-          "config": {
-            "label": "Fullname",
-            "placeholder": ""
-          }
-        }
-      }
+      "items": {}
     }
   ]
 }

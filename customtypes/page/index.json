@@ -3,7 +3,7 @@
   "label": "homepage",
   "repeatable": true,
   "status": true,
-  "format": "custom",
+  "format": "page",
   "json": {
     "Main": {
       "uid": {
@@ -18,16 +18,16 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "images": {
+              "type": "SharedSlice"
+            },
+            "footer": {
+              "type": "SharedSlice"
+            },
             "services_team": {
               "type": "SharedSlice"
             },
             "header": {
-              "type": "SharedSlice"
-            },
-            "find_us_on": {
-              "type": "SharedSlice"
-            },
-            "call_to_action": {
               "type": "SharedSlice"
             }
           }

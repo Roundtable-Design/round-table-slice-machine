@@ -11,19 +11,31 @@ export type ServicesTeamProps = SliceComponentProps<Content.ServicesTeamSlice>;
  */
 const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
   return (
-    <section className="py-10 px-10 flex flex-row gap-4">
-      <div className="flex-1">
-        <h1>{slice.primary.title_text}</h1>
-        <div className="mb-10">
-          <PrismicRichText field={slice.primary.description} />
-        </div>
+    <section
+      data-slice-type={slice.slice_type}
+      data-slice-variation={slice.variation}
+      className="flex flex-row gap-4 m-2"
+    >
+      <div className="w-full md:w-1/2">
+        <h6 className="font-medium text-base max-w-l tracking-wide">
+          {slice.primary.title_text}
+        </h6>
+        <PrismicRichText field={slice.primary.description} />
       </div>
 
-      <div className="flex-1">
-        <h1>{slice.primary.second_title_text}</h1>
-        <PrismicRichText field={slice.primary.secondary_description} />
-        <h1>{slice.primary.button_text}</h1>
-        <PrismicRichText field={slice.primary.button_description} />
+      <div className="w-full md:w-1/2">
+        <div className="mb-2">
+          <h6 className="font-medium text-base max-w-l tracking-wide">
+            {slice.primary.second_title_text}
+          </h6>
+          <PrismicRichText field={slice.primary.secondary_description} />
+        </div>
+        <div className="mb-2">
+          <h6 className="font-medium text-base max-w-l tracking-wide">
+            {slice.primary.button_text}
+          </h6>
+          <PrismicRichText field={slice.primary.button_description} />
+        </div>
       </div>
     </section>
   );
