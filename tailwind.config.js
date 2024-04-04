@@ -6,7 +6,11 @@ module.exports = {
     "./slices/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        fade: "pulse 2s linear",
+      },
+    },
   },
   plugins: [],
 };

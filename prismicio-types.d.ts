@@ -254,6 +254,21 @@ type HeaderSliceVariation = HeaderSliceDefault;
 export type HeaderSlice = prismic.SharedSlice<"header", HeaderSliceVariation>;
 
 /**
+ * Primary content in *Images → Primary*
+ */
+export interface ImagesSliceDefaultPrimary {
+  /**
+   * Video field in *Images → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: images.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+}
+
+/**
  * Primary content in *Images → Items*
  */
 export interface ImagesSliceDefaultItem {
@@ -277,7 +292,7 @@ export interface ImagesSliceDefaultItem {
  */
 export type ImagesSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Record<string, never>,
+  Simplify<ImagesSliceDefaultPrimary>,
   Simplify<ImagesSliceDefaultItem>
 >;
 
@@ -416,6 +431,7 @@ declare module "@prismicio/client" {
       HeaderSliceVariation,
       HeaderSliceDefault,
       ImagesSlice,
+      ImagesSliceDefaultPrimary,
       ImagesSliceDefaultItem,
       ImagesSliceVariation,
       ImagesSliceDefault,
