@@ -31,9 +31,9 @@ const Footer = ({ slice }: FooterProps): JSX.Element => {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="flex flex-row gap-4 bg-black text-white p-2"
+      className="flex flex-row justify-between gap-4 bg-black text-white p-2"
     >
-      <div className="w-full md:w-1/2">
+      <div className="w-full">
         <h6 className="font-medium text-base max-w-l tracking-wide">
           {slice.primary.title}
         </h6>
@@ -48,9 +48,9 @@ const Footer = ({ slice }: FooterProps): JSX.Element => {
         </div>
       </div>
 
-      <div className="w-full md:w-1/2">
+      <div className="w-auto h-auto">
         <div
-          className="clutch-widget bg-white p-1 rounded w-48 md:w-60"
+          className="clutch-widget bg-white p-1 rounded w-full"
           data-url="https://widget.clutch.co"
           data-widget-type="2"
           data-height="45"
