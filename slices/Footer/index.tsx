@@ -50,7 +50,7 @@ const Footer = ({ slice }: FooterProps): JSX.Element => {
 
       <div className="w-full md:w-1/2">
         <div
-          className="clutch-widget bg-white p-1 rounded w-48 md:w-60 pl-3"
+          className="clutch-widget bg-white p-1 rounded w-48 md:w-60"
           data-url="https://widget.clutch.co"
           data-widget-type="2"
           data-height="45"
