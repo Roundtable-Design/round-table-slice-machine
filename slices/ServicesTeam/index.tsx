@@ -14,18 +14,20 @@ export type ServicesTeamProps = SliceComponentProps<Content.ServicesTeamSlice>;
 
 const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
   const [showRichText, setShowRichText] = React.useState(false);
-  const [animationClass, setAnimationClass] = React.useState("");
   const [rotateSVG, setRotateSVG] = React.useState("");
+
+  const animationClass = !showRichText
+    ? "animate-fadeOutSlideUp"
+    : "animate-fadeInSlideDown";
 
   const toggleRichText = () => {
     if (!showRichText) {
-      setShowRichText(true); // Show the element
-      setAnimationClass("animate-fadeInSlideDown");
+      setShowRichText(true);
       setRotateSVG("rotate-90");
     } else {
-      setAnimationClass("animate-fadeOutSlideUp");
       setRotateSVG("rotate-0");
-      setTimeout(() => setShowRichText(false), 500); // Wait for animation to complete
+      // setTimeout(() => setShowRichText(false), 750);
+      setShowRichText(false);
     }
   };
 
@@ -71,7 +73,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
             </svg>
           </button>
           {showRichText && (
-            <div className={`${animationClass} overflow-hidden duration-500`}>
+            <div className={`${animationClass} overflow-hidden`}>
               <PrismicRichText field={slice.primary.button_description} />
             </div>
           )}

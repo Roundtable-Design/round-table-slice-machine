@@ -9,19 +9,17 @@ module.exports = {
     extend: {
       keyframes: {
         fadeInSlideDown: {
-          "0%": { opacity: "0", transform: "translateY(-100%)" },
-          "50%": { opacity: "0", transform: "translateY(0)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+          "0%": { opacity: "0", maxHeight: "0" },
+          "100%": { opacity: "1", maxHeight: "500px" },
         },
         fadeOutSlideUp: {
-          "0%": { opacity: "1", transform: "translateY(0)" },
-          "50%": { opacity: "0", transform: "translateY(0)" },
-          "100%": { opacity: "0", transform: "translateY(-100%)" },
+          "0%": { opacity: "1", maxHeight: "500px" },
+          "100%": { opacity: "0", maxHeight: "0" },
         },
       },
       animation: {
-        fadeInSlideDown: "fadeInSlideDown 0.5s ease-in-out forwards",
-        fadeOutSlideUp: "fadeOutSlideUp 0.5s ease-in-out forwards",
+        fadeInSlideDown: "fadeInSlideDown 0.75s ease-in-out",
+        fadeOutSlideUp: "fadeOutSlideUp 0.75s ease-in-out",
       },
     },
   },
