@@ -9,7 +9,26 @@ export type ServicesTeamProps = SliceComponentProps<Content.ServicesTeamSlice>;
 /**
  * Component for "ServicesTeam" Slices.
  */
+
+/* Slide down animation */
+
 const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
+  const [showRichText, setShowRichText] = React.useState(false);
+  const [animationClass, setAnimationClass] = React.useState("");
+  const [rotateSVG, setRotateSVG] = React.useState("");
+
+  const toggleRichText = () => {
+    if (!showRichText) {
+      setShowRichText(true); // Show the element
+      setAnimationClass("animate-fadeInSlideDown");
+      setRotateSVG("rotate-90");
+    } else {
+      setAnimationClass("animate-fadeOutSlideUp");
+      setRotateSVG("rotate-0");
+      setTimeout(() => setShowRichText(false), 500); // Wait for animation to complete
+    }
+  };
+
   return (
     <section
       data-slice-type={slice.slice_type}
@@ -30,11 +49,32 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
           </h6>
           <PrismicRichText field={slice.primary.secondary_description} />
         </div>
+
         <div className="mb-2">
-          <h6 className="font-medium text-base max-w-l tracking-wide">
+          <button
+            className="font-medium text-base max-w-l tracking-wide flex items-center justify-center gap-1"
+            onClick={toggleRichText}
+          >
             {slice.primary.button_text}
-          </h6>
-          <PrismicRichText field={slice.primary.button_description} />
+            <svg
+              width="12"
+              height="12"
+              className={`align-middle mt-1 hover:rotate-90 duration-500 ${rotateSVG}`}
+              viewBox="0 0 8 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.47623 0.968857L3.82307 0.613007C3.96993 0.462331 4.2074 0.462331 4.3527 0.613007L7.38986 3.7275C7.53671 3.87818 7.53671 4.12182 7.38986 4.2709L4.3527 7.38699C4.20584 7.53767 3.96836 7.53767 3.82307 7.38699L3.47623 7.03114C3.32781 6.87886 3.33093 6.63041 3.48248 6.48134L5.36508 4.64117H0.874958C0.667169 4.64117 0.5 4.46966 0.5 4.25647V3.74353C0.5 3.53034 0.667169 3.35883 0.874958 3.35883H5.36508L3.48248 1.51866C3.32937 1.36959 3.32625 1.12114 3.47623 0.968857Z"
+                fill="black"
+              />
+            </svg>
+          </button>
+          {showRichText && (
+            <div className={`${animationClass} overflow-hidden duration-500`}>
+              <PrismicRichText field={slice.primary.button_description} />
+            </div>
+          )}
         </div>
       </div>
     </section>
