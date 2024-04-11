@@ -38,7 +38,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
       className="flex flex-row gap-4 m-2"
     >
       <div className="w-full md:w-1/2">
-        <h6 className="font-medium text-base max-w-l tracking-wide">
+        <h6 className="font-medium text-base max-w-l">
           {slice.primary.title_text}
         </h6>
         <PrismicRichText field={slice.primary.description} />
@@ -46,7 +46,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
 
       <div className="w-full md:w-1/2">
         <div className="mb-2">
-          <h6 className="font-medium text-base max-w-l tracking-wide">
+          <h6 className="font-medium text-base max-w-l">
             {slice.primary.second_title_text}
           </h6>
           <PrismicRichText field={slice.primary.secondary_description} />
@@ -54,7 +54,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
 
         <div className="mb-2">
           <button
-            className="font-medium text-base max-w-l tracking-wide flex items-center justify-center gap-1"
+            className="font-medium text-base max-w-l flex items-center justify-center gap-1"
             onClick={toggleRichText}
           >
             {slice.primary.button_text}

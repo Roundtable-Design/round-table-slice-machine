@@ -34,7 +34,7 @@ const Footer = ({ slice }: FooterProps): JSX.Element => {
       className="flex flex-row justify-between gap-4 bg-black text-white p-2"
     >
       <div className="w-full">
-        <h6 className="font-medium text-base max-w-l tracking-wide">
+        <h6 className="font-medium text-base max-w-l ">
           {slice.primary.title}
         </h6>
         <PrismicRichText field={slice.primary.description} />

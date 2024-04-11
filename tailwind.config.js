@@ -6,6 +6,10 @@ module.exports = {
     "./slices/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      display: "founders-grotesk",
+      body: '"founders-grotesk',
+    },
     extend: {
       keyframes: {
         fadeInSlideDown: {
