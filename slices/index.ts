@@ -7,4 +7,5 @@ export const components = {
   header: dynamic(() => import("./Header")),
   images: dynamic(() => import("./Images")),
   services_team: dynamic(() => import("./ServicesTeam")),
+  videos: dynamic(() => import("./Videos")),
 };

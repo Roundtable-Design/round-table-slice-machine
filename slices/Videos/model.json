@@ -1,8 +1,8 @@
 {
-  "id": "images",
+  "id": "videos",
   "type": "SharedSlice",
-  "name": "Images",
-  "description": "Images",
+  "name": "Videos",
+  "description": "Videos",
   "variations": [
     {
       "id": "default",
@@ -13,12 +13,12 @@
       "imageUrl": "",
       "primary": {},
       "items": {
-        "image": {
-          "type": "Image",
+        "video": {
+          "type": "Link",
           "config": {
-            "label": "Image",
-            "constraint": {},
-            "thumbnails": []
+            "label": "Video",
+            "placeholder": "",
+            "select": "media"
           }
         }
       }

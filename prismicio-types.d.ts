@@ -94,6 +94,7 @@ export type FooterDocument<Lang extends string = string> =
   >;
 
 type PageDocumentDataSlicesSlice =
+  | VideosSlice
   | ImagesSlice
   | FooterSlice
   | ServicesTeamSlice
@@ -254,21 +255,6 @@ type HeaderSliceVariation = HeaderSliceDefault;
 export type HeaderSlice = prismic.SharedSlice<"header", HeaderSliceVariation>;
 
 /**
- * Primary content in *Images → Primary*
- */
-export interface ImagesSliceDefaultPrimary {
-  /**
-   * Video field in *Images → Primary*
-   *
-   * - **Field Type**: Link to Media
-   * - **Placeholder**: *None*
-   * - **API ID Path**: images.primary.video
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  video: prismic.LinkToMediaField;
-}
-
-/**
  * Primary content in *Images → Items*
  */
 export interface ImagesSliceDefaultItem {
@@ -292,7 +278,7 @@ export interface ImagesSliceDefaultItem {
  */
 export type ImagesSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Simplify<ImagesSliceDefaultPrimary>,
+  Record<string, never>,
   Simplify<ImagesSliceDefaultItem>
 >;
 
@@ -405,6 +391,48 @@ export type ServicesTeamSlice = prismic.SharedSlice<
   ServicesTeamSliceVariation
 >;
 
+/**
+ * Primary content in *Videos → Items*
+ */
+export interface VideosSliceDefaultItem {
+  /**
+   * Video field in *Videos → Items*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: videos.items[].video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+}
+
+/**
+ * Default variation for Videos Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type VideosSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Record<string, never>,
+  Simplify<VideosSliceDefaultItem>
+>;
+
+/**
+ * Slice variation for *Videos*
+ */
+type VideosSliceVariation = VideosSliceDefault;
+
+/**
+ * Videos Shared Slice
+ *
+ * - **API ID**: `videos`
+ * - **Description**: Videos
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type VideosSlice = prismic.SharedSlice<"videos", VideosSliceVariation>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -431,7 +459,6 @@ declare module "@prismicio/client" {
       HeaderSliceVariation,
       HeaderSliceDefault,
       ImagesSlice,
-      ImagesSliceDefaultPrimary,
       ImagesSliceDefaultItem,
       ImagesSliceVariation,
       ImagesSliceDefault,
@@ -439,6 +466,10 @@ declare module "@prismicio/client" {
       ServicesTeamSliceDefaultPrimary,
       ServicesTeamSliceVariation,
       ServicesTeamSliceDefault,
+      VideosSlice,
+      VideosSliceDefaultItem,
+      VideosSliceVariation,
+      VideosSliceDefault,
     };
   }
 }
