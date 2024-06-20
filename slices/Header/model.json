@@ -26,6 +26,14 @@
             "label": "Website title",
             "placeholder": ""
           }
+        },
+        "logo_dark_mode": {
+          "type": "Image",
+          "config": {
+            "label": "Logo dark mode",
+            "constraint": {},
+            "thumbnails": []
+          }
         }
       },
       "items": {}

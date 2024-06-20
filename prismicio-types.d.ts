@@ -225,6 +225,16 @@ export interface HeaderSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   website_title: prismic.KeyTextField;
+
+  /**
+   * Logo dark mode field in *Header → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: header.primary.logo_dark_mode
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  logo_dark_mode: prismic.ImageField<never>;
 }
 
 /**

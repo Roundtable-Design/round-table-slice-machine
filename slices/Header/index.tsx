@@ -1,9 +1,6 @@
 import { Content } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage } from "@prismicio/next";
-// import Icon from "../../components/Icon";
-import Image from "next/image";
-
 /**
  * Props for `Header`.
  */
@@ -19,14 +16,25 @@ const Header = ({ slice }: HeaderProps): JSX.Element => {
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
     >
-      <PrismicNextImage
-        field={slice.primary.logo}
-        className="box-content"
-        width={100}
-        height={100}
-        alt=""
-      />
-      {/* <h1>{slice.primary.website_title}</h1> */}
+      <div className="ml-7 mt-7 box-content">
+        <PrismicNextImage
+          field={slice.primary.logo}
+          className="block dark:hidden"
+          width={43}
+          height={43}
+          alt=""
+        />
+        <PrismicNextImage
+          field={slice.primary.logo_dark_mode}
+          className="hidden dark:block"
+          width={43}
+          height={43}
+          alt=""
+        />
+      </div>
+      <h1 className="font-medium text-basefont-medium text-base black dark:white ml-3">
+        {slice.primary.website_title}
+      </h1>
     </section>
   );
 };
