@@ -19,7 +19,7 @@ const Images = ({ slice }: ImagesProps): JSX.Element => {
   React.useEffect(() => {
     if (slice?.items?.length > 0) {
       const shuffledItems = slice.items.sort(() => 0.5 - Math.random());
-      const selectedItems = shuffledItems.slice(0, 2);
+      const selectedItems = shuffledItems.slice(0, 4);
       setRandomImages(selectedItems);
     }
   }, [slice]);
@@ -28,7 +28,7 @@ const Images = ({ slice }: ImagesProps): JSX.Element => {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="grid gap-2 grid-cols-2 m-2 "
+      className="grid gap-2 grid-cols-2 m-2 lg:grid-cols-4 "
       // grid-rows-2 pb-[116px]
     >
       {randomImages.map((item, i) => (
