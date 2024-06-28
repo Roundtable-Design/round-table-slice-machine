@@ -16,7 +16,7 @@ const Header = ({ slice }: HeaderProps): JSX.Element => {
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
     >
-      <div className="ml-7 mt-7 box-content">
+      <div className="lg:ml-8 lg:mt-8 ml-7 mt-7 box-content">
         <PrismicNextImage
           field={slice.primary.logo}
           className="block dark:hidden"
@@ -32,7 +32,7 @@ const Header = ({ slice }: HeaderProps): JSX.Element => {
           alt=""
         />
       </div>
-      <h1 className="font-medium text-basefont-medium text-base black dark:white ml-3">
+      <h1 className="lg:text-lg font-medium text-basefont-medium text-base black dark:white ml-3">
         {slice.primary.website_title}
       </h1>
     </section>

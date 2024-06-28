@@ -37,14 +37,14 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
       data-slice-variation={slice.variation}
       className="flex flex-row gap-4 m-2"
     >
-      <div className="w-full md:w-1/2">
+      <div className="w-1/2">
         <h6 className="lg:text-lg text-base font-medium max-w-l">
           {slice.primary.title_text}
         </h6>
         <PrismicRichText field={slice.primary.description} />
       </div>
 
-      <div className="w-full md:w-1/2">
+      <div className="w-1/2">
         <div className="mb-2">
           <h6 className="lg:text-lg text-base font-medium max-w-l">
             {slice.primary.second_title_text}
