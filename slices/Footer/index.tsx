@@ -31,7 +31,7 @@ const Footer = ({ slice }: FooterProps): JSX.Element => {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="flex flex-col-reverse md:flex-row justify-between gap-4 bg-black text-white p-2"
+      className="flex flex-col-reverse md:flex-row justify-between gap-4 bg-black text-white p-2 lg:p-5"
     >
       <div className="w-full">
         <h6 className="lg:text-lg text-base font-medium max-w-l ">

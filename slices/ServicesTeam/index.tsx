@@ -35,7 +35,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="flex flex-row gap-4 m-2"
+      className="flex flex-row gap-4 m-2 lg:m-5"
     >
       <div className="w-1/2">
         <h6 className="lg:text-lg text-base font-medium max-w-l">

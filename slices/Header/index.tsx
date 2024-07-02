@@ -12,7 +12,7 @@ export type HeaderProps = SliceComponentProps<Content.HeaderSlice>;
 const Header = ({ slice }: HeaderProps): JSX.Element => {
   return (
     <section
-      className="m-2 mb-5 flex flex-col"
+      className="m-2 mb-5 flex flex-col lg:m-5"
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
     >
