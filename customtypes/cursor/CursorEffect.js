@@ -10,7 +10,7 @@ export default function CursorEffect() {
 
   return (
     <motion.div
-        className="bg-white  absolute  mix-blend-difference pointer-events-none">
+        className="bg-white mix-blend-difference">
 
         <UnionObject />
         <LeavesObject />

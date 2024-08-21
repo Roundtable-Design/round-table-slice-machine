@@ -43,7 +43,7 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="grid gap-2 grid-cols-2 m-2 lg:m-5 pb-[116px] lg:grid-cols-4 mix-blend-difference"
+      className="grid gap-2 grid-cols-2 m-2 lg:m-5 pb-[116px] lg:grid-cols-4"
     >
       {randomVideos.map((item, i) => (
         <div className="relative w-full pt-[100%]">

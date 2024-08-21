@@ -7,25 +7,39 @@ import Cursor from "../customtypes/cursor/CursorEffect";
 
 const richTextComponents = {
   heading1: ({ children }) => (
-    <h1 className="lg:text-lg text-base font-medium mb-6">{children}</h1>
+    <h1 className="lg:text-lg text-base dark:text-white  font-medium mb-6">
+      {children}
+    </h1>
   ),
   heading2: ({ children }) => (
-    <h2 className="lg:text-lg text-base font-medium mb-6">{children}</h2>
+    <h2 className="lg:text-lg text-base dark:text-white font-medium mb-6">
+      {children}
+    </h2>
   ),
   heading3: ({ children }) => (
-    <h3 className="lg:text-lg text-base font-medium mb-6">{children}</h3>
+    <h3 className="lg:text-lg text-base dark:text-white font-medium mb-6">
+      {children}
+    </h3>
   ),
   heading4: ({ children }) => (
-    <h4 className="lg:text-lg text-base font-medium mb-6">{children}</h4>
+    <h4 className="lg:text-lg text-base dark:text-white font-medium mb-6">
+      {children}
+    </h4>
   ),
   heading5: ({ children }) => (
-    <h5 className="lg:text-lg text-base font-medium mb-6">{children}</h5>
+    <h5 className="lg:text-lg text-base dark:text-white font-medium mb-6">
+      {children}
+    </h5>
   ),
   heading6: ({ children }) => (
-    <h6 className="lg:text-lg text-base font-medium mb-6">{children}</h6>
+    <h6 className="lg:text-lg text-base dark:text-white font-medium mb-6">
+      {children}
+    </h6>
   ),
   paragraph: ({ children }) => (
-    <p className="lg:text-lg text-base font-normal max-w-l">{children}</p>
+    <p className="lg:text-lg text-base dark:text-white font-normal max-w-l">
+      {children}
+    </p>
   ),
 };
 
