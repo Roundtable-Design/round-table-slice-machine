@@ -1,7 +1,5 @@
 import { motion } from "framer-motion";
 import useMousePosition from "../utils/useMousePosition";
-import MonoPath from "./paths.js/monoPath";
-import DuoPath from "./paths.js/DuoPath";
 
 export default function FollowingObject(props) {
  
