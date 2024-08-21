@@ -4,6 +4,9 @@ import * as prismicH from "@prismicio/helpers";
 
 import { createClient } from "../prismicio";
 import { components } from "../slices/";
+
+import DarkModeToggle from "../components/DarkModeToggle";
+
 /**
  * This component renders your homepage.
  *
@@ -17,7 +20,12 @@ export default function Index({ page }) {
       <Head>
         <title>{prismicH.asText(page.data.title)}</title>
       </Head>
-      <SliceZone slices={page.data.slices} components={components} />
+      <div className="min-h-screen bg-white dark:bg-gray-950">
+        <header className="p-4">
+          <DarkModeToggle />
+        </header>
+        <SliceZone slices={page.data.slices} components={components} />
+      </div>
     </main>
   );
 }
