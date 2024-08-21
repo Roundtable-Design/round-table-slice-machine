@@ -1,8 +1,4 @@
-import FlowerObject from "./objects/FlowerObject";
-import BlotObject from "./objects/BlotObject";
-import UnionObject from "./objects/UnionObject";
 import LeavesObject from "./objects/LeavesObject";
-import SnakeObject from "./objects/SnakeObject";
 import FollowingObject from "./objects/FollowingObject";
 
 import objectData from "./svgs/svgs.json";
@@ -22,13 +18,6 @@ export default function CursorEffect() {
           height={objectData["Union"].height} 
           viewBox={objectData["Union"].viewBox}
           paths={objectData["Union"].paths}/>
-        <FollowingObject 
-          id="Leaves" movingSpeed={0.15} 
-          rotationSpeed={1.1} 
-          width={objectData["Leaves"].width} 
-          height={objectData["Leaves"].height} 
-          viewBox={objectData["Leaves"].viewBox}
-          paths={objectData["Leaves"].paths}/>
         <FollowingObject 
           id="Flower" movingSpeed={0.05} 
           rotationSpeed={1} 
@@ -50,6 +39,7 @@ export default function CursorEffect() {
           height={objectData["Blot"].height} 
           viewBox={objectData["Blot"].viewBox}
           paths={objectData["Blot"].paths}/>
+        <LeavesObject />
 
     </motion.div>
 

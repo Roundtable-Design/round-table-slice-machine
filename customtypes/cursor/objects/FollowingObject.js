@@ -6,17 +6,12 @@ import DuoPath from "./paths.js/DuoPath";
 export default function FollowingObject(props) {
  
     const { x, y } = useMousePosition();
-    const radius = 20;
+    const radius = 0;
 
     const angles = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 
                     100, 110, 120, 130, 140, 150, 160, 170, 180, 
                     190, 200, 210, 220, 230, 240, 250, 260, 270, 
                     280, 290, 300, 310, 320, 330, 340,, 350, 360];
-
-    let PathType = MonoPath;
-    // if (props.paths.length > 1) PathType = DuoPath;
-    // else PathType = MonoPath;
-    
     
 
     return (
@@ -27,10 +22,10 @@ export default function FollowingObject(props) {
                 className="h-20px w-20px absolute" 
                 animate={{ rotate: angles }}
                 transition={{ repeat: Infinity, duration: props.rotationSpeed }} >
-                <motion.svg
+                <motion.svg 
                     width={props.width} height={props.height} viewBox={props.viewBox} fill="none" xmlns="http://www.w3.org/2000/svg"
                     className="absolute" >
-                    <PathType paths={props.paths} />
+                    <path d={props.paths[0]} fill="#FFFFFF"/>
                 </motion.svg>
             </motion.div>
         </motion.div>  
