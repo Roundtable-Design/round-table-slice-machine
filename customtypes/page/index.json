@@ -17,23 +17,7 @@
         "type": "Slices",
         "fieldset": "Slice Zone",
         "config": {
-          "choices": {
-            "videos": {
-              "type": "SharedSlice"
-            },
-            "images": {
-              "type": "SharedSlice"
-            },
-            "footer": {
-              "type": "SharedSlice"
-            },
-            "services_team": {
-              "type": "SharedSlice"
-            },
-            "header": {
-              "type": "SharedSlice"
-            }
-          }
+          "choices": {}
         }
       }
     }

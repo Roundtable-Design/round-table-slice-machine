@@ -54,7 +54,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
 
         <div className="mb-2">
           <button
-            className="lg:text-lg text-base font-medium max-w-l flex items-center justify-center gap-1"
+            className="lg:text-lg text-base font-medium max-w-l flex items-center justify-center gap-1 mix-blend-difference"
             onClick={toggleRichText}
           >
             {slice.primary.button_text}

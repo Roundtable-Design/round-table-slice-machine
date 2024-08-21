@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Cursor from "../customtypes/cursor/CursorEffect";
 
 export default function Document() {
   return (

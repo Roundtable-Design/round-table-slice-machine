@@ -93,12 +93,7 @@ export type FooterDocument<Lang extends string = string> =
     Lang
   >;
 
-type PageDocumentDataSlicesSlice =
-  | VideosSlice
-  | ImagesSlice
-  | FooterSlice
-  | ServicesTeamSlice
-  | HeaderSlice;
+type PageDocumentDataSlicesSlice = never;
 
 /**
  * Content for homepage documents

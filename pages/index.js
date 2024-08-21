@@ -4,6 +4,8 @@ import * as prismicH from "@prismicio/helpers";
 
 import { createClient } from "../prismicio";
 import { components } from "../slices/";
+
+import CursorEffect from "../customtypes/cursor/CursorEffect";
 /**
  * This component renders your homepage.
  *
@@ -14,11 +16,19 @@ import { components } from "../slices/";
 export default function Index({ page }) {
   return (
     <main>
+      
       <Head>
+      
         <title>{prismicH.asText(page.data.title)}</title>
+        
       </Head>
+      
+      {/* <CursorEffect /> */}
+      
       <SliceZone slices={page.data.slices} components={components} />
+      
     </main>
+    
   );
 }
 
@@ -32,7 +42,7 @@ export async function getStaticProps({ previewData }) {
 
   return {
     props: {
-      page,
+      page, 
     },
   };
 }

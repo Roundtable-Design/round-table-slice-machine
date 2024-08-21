@@ -28,11 +28,14 @@ const Images = ({ slice }: ImagesProps): JSX.Element => {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="grid gap-2 grid-cols-2 m-2 lg:m-5 lg:grid-cols-4 "
+      className="grid gap-2 grid-cols-2 m-2 lg:m-5 lg:grid-cols-4 mix-blend-difference"
       // grid-rows-2 pb-[116px]
     >
+      
       {randomImages.map((item, i) => (
+        
         <div key={i} className="relative w-full pt-[100%]">
+          
           <PrismicNextImage
             field={item.image}
             imgixParams={{ auto: undefined, fit: "max", w: 750 }}
@@ -43,6 +46,7 @@ const Images = ({ slice }: ImagesProps): JSX.Element => {
           />
         </div>
       ))}
+      
     </section>
   );
 };

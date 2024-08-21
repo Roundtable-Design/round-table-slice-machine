@@ -3,6 +3,7 @@ import { PrismicProvider } from "@prismicio/react";
 import { PrismicPreview } from "@prismicio/next";
 import { repositoryName } from "../prismicio";
 import "../styles/globals.css";
+import Cursor from "../customtypes/cursor/CursorEffect";
 
 const richTextComponents = {
   heading1: ({ children }) => (
@@ -40,9 +41,14 @@ export default function App({ Component, pageProps }) {
       internalLinkComponent={(props) => <Link {...props} />}
       richTextComponents={richTextComponents}
     >
+      
       <PrismicPreview repositoryName={repositoryName}>
+        
         <Component {...pageProps} />
+        
       </PrismicPreview>
+      
     </PrismicProvider>
+    
   );
 }
