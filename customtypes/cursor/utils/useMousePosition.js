@@ -8,24 +8,16 @@ export default function useMousePosition() {
     let totalScrollY = 0;
 
     const updateMousePosition = (e) => {
-        setMousePosition({x: e.clientX , y: totalScrollY});
-    }
+        setMousePosition({x: e.clientX , y: e.clientY});
+        //                           -20              -900
+    } 
 
     useEffect ( () => {
-        function updateTotalScrollY(){
-            totalScrollY = window.scrollY + clientScrollY;
-        }
-        
         document.addEventListener('mousemove', (e1) => {
-            clientScrollY = e1.clientY;
-            updateTotalScrollY();
             document.addEventListener('mousemove', updateMousePosition)
             return () => {
                 document.removeEventListener("mousemove", updateMousePosition)
             }
-        })
-        document.addEventListener('scroll', (e) => {
-            updateTotalScrollY();
         })
     },[])
 

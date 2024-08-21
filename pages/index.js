@@ -5,7 +5,9 @@ import * as prismicH from "@prismicio/helpers";
 import { createClient } from "../prismicio";
 import { components } from "../slices/";
 
+import DarkModeToggle from "../components/DarkModeToggle";
 import CursorEffect from "../customtypes/cursor/CursorEffect";
+
 /**
  * This component renders your homepage.
  *
@@ -22,11 +24,16 @@ export default function Index({ page }) {
         <title>{prismicH.asText(page.data.title)}</title>
         
       </Head>
-      
-      {/* <CursorEffect /> */}
-      
-      <SliceZone slices={page.data.slices} components={components} />
-      
+      <div className="min-h-screen bg-white dark:bg-gray-950">
+        <header className="pointer-events-none fixed z-10 mix-blend-difference" >
+          <CursorEffect />
+        </header>
+        <header className="p-4">
+          <DarkModeToggle />
+        </header>
+        <SliceZone slices={page.data.slices} components={components} />
+        
+      </div>
     </main>
     
   );
