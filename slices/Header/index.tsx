@@ -32,7 +32,7 @@ const Header = ({ slice }: HeaderProps): JSX.Element => {
           alt=""
         />
       </div>
-      <h1 className="lg:text-lg font-medium text-basefont-medium text-base black dark:white ml-3">
+      <h1 className="lg:text-lg font-medium text-basefont-medium text-base black dark:text-white ml-3">
         {slice.primary.website_title}
       </h1>
     </section>

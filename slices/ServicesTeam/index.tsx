@@ -38,7 +38,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
       className="flex flex-row gap-4 m-2 lg:m-5"
     >
       <div className="w-1/2">
-        <h6 className="lg:text-lg text-base font-medium max-w-l">
+        <h6 className="lg:text-lg text-base dark:text-white font-medium max-w-l">
           {slice.primary.title_text}
         </h6>
         <PrismicRichText field={slice.primary.description} />
@@ -46,7 +46,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
 
       <div className="w-1/2">
         <div className="mb-2">
-          <h6 className="lg:text-lg text-base font-medium max-w-l">
+          <h6 className="lg:text-lg text-base dark:text-white  font-medium max-w-l">
             {slice.primary.second_title_text}
           </h6>
           <PrismicRichText field={slice.primary.secondary_description} />
@@ -54,7 +54,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
 
         <div className="mb-2">
           <button
-            className="lg:text-lg text-base font-medium max-w-l flex items-center justify-center gap-1"
+            className="lg:text-lg text-base dark:text-white  font-medium max-w-l flex items-center justify-center gap-1"
             onClick={toggleRichText}
           >
             {slice.primary.button_text}
@@ -69,7 +69,6 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
               <path
                 d="M3.47623 0.968857L3.82307 0.613007C3.96993 0.462331 4.2074 0.462331 4.3527 0.613007L7.38986 3.7275C7.53671 3.87818 7.53671 4.12182 7.38986 4.2709L4.3527 7.38699C4.20584 7.53767 3.96836 7.53767 3.82307 7.38699L3.47623 7.03114C3.32781 6.87886 3.33093 6.63041 3.48248 6.48134L5.36508 4.64117H0.874958C0.667169 4.64117 0.5 4.46966 0.5 4.25647V3.74353C0.5 3.53034 0.667169 3.35883 0.874958 3.35883H5.36508L3.48248 1.51866C3.32937 1.36959 3.32625 1.12114 3.47623 0.968857Z"
                 fill="currentColor"
-                // className="fill-black dark:fill-white"
               />
             </svg>
           </button>
