@@ -39,6 +39,13 @@ export default function CursorEffect() {
           height={objectData["Blot"].height} 
           viewBox={objectData["Blot"].viewBox}
           paths={objectData["Blot"].paths}/>
+        <FollowingObject 
+          id="Family" movingSpeed={0.25} 
+          rotationSpeed={1.7} 
+          width={objectData["Family"].width} 
+          height={objectData["Family"].height} 
+          viewBox={objectData["Family"].viewBox}
+          paths={objectData["Family"].paths}/>
         <LeavesObject />
 
     </motion.div>
