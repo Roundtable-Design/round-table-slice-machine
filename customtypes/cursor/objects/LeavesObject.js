@@ -1,19 +1,19 @@
 import { motion } from "framer-motion";
 import useMousePosition from "../utils/useMousePosition";
 
-export default function LeavesObject() {
-
-    const { x, y } = useMousePosition();
-    const radius = 0;
+export default function LeavesObject(props) {
 
     const angles = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 
                     100, 110, 120, 130, 140, 150, 160, 170, 180, 
                     190, 200, 210, 220, 230, 240, 250, 260, 270, 
                     280, 290, 300, 310, 320, 330, 340,, 350, 360];
+    const smth = Math.floor(Math.floor((Math.random())*1000)/(1000/360))
 
     return (
         <motion.div
-            animate={{ x: x-radius, y: y-radius, }}
+            initial={{ scale: 1, rotate: smth, x: props.x, y: props.y, }}
+            animate={{ scale: 1, x: props.x, y: props.y, }}
+            exit={{ scale: 0 }}
             transition={{ duration: 0.15 }} >
             <motion.div
                 className="h-20px w-20px absolute" 

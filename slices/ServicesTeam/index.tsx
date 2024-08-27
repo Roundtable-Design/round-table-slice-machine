@@ -35,18 +35,18 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="flex flex-row gap-4 m-2 lg:m-5"
+      className="flex flex-row gap-4 m-2 lg:m-5 z-10"
     >
-      <div className="w-1/2">
-        <h6 className="lg:text-lg text-base dark:text-white font-medium max-w-l">
+      <div className="w-1/2 dark:text-white text-black">
+        <h6 className="lg:text-lg text-base font-medium max-w-l">
           {slice.primary.title_text}
         </h6>
         <PrismicRichText field={slice.primary.description} />
       </div>
 
       <div className="w-1/2">
-        <div className="mb-2">
-          <h6 className="lg:text-lg text-base dark:text-white  font-medium max-w-l">
+        <div className="mb-2 dark:text-white text-black">
+          <h6 className="lg:text-lg text-base font-medium max-w-l">
             {slice.primary.second_title_text}
           </h6>
           <PrismicRichText field={slice.primary.secondary_description} />
@@ -54,7 +54,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
 
         <div className="mb-2">
           <button
-            className="lg:text-lg text-base dark:text-white  font-medium max-w-l flex items-center justify-center gap-1"
+            className="lg:text-lg text-base dark:text-white text-black font-medium max-w-l flex items-center justify-center gap-1"
             onClick={toggleRichText}
           >
             {slice.primary.button_text}
@@ -73,7 +73,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
             </svg>
           </button>
           {showRichText && (
-            <div className={`${animationClass} overflow-hidden`}>
+            <div className={`${animationClass} overflow-hidden dark:text-white text-black`}>
               <PrismicRichText field={slice.primary.button_description} />
             </div>
           )}
