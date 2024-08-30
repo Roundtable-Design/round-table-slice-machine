@@ -2,9 +2,6 @@ import LeavesObject from "./objects/LeavesObject";
 import FollowingObject from "./objects/FollowingObject";
 import useMousePosition from "./utils/useMousePosition";
 import fallingObjectCalculation from "./utils/fallingObjectCalculation";
-// import navigator
-// import { headers } from "next/headers"
-// import { getSelectorsByUserAgent } from "react-device-detect"
 
 import { useState, useEffect } from "react";
 import objectData from "./svgs/svgs.json";
@@ -16,49 +13,42 @@ import { motion, AnimatePresence }from "framer-motion";
 export default function CursorEffect() {
 
   const { x, y } = useMousePosition();
-
   const [ removeCursor, setRemoveCursor ] = useState(true);
-  const [ height, setHeight ] = useState()
   
   let timer;
 
+  function cursorMovement() {
+    setRemoveCursor(true)
+    clearTimeout(timer)
+    timer = setTimeout(() => setRemoveCursor(false), 500)
+  } 
+
+  function cursorClick() {
+    setRemoveCursor(true)
+    clearTimeout(timer)
+    timer = setTimeout(() => setRemoveCursor(false), 800)
+  }
+
   useEffect (() => {
-    // function isMobile() {
-    //   return window.matchMedia("(pointer: coarse)").matches;
-    // }
-    setHeight(window.innerHeight)   
-
-    window.addEventListener("mousemove", () => {
-      setRemoveCursor(true)
-      clearTimeout(timer)
-      timer = setTimeout(() => setRemoveCursor(false), 200)
+    document.addEventListener('mousemove', (e1) => {
+      window.addEventListener("mousemove", cursorMovement)
+      return () => {
+        window.removeEventListener("mousemove", cursorMovement)
+      }
     })
 
-    window.addEventListener("click", () => {
-
-      setRemoveCursor(true)
-      clearTimeout(timer)
-      timer = setTimeout(() => setRemoveCursor(false), 500)
-
-    })
-
-
-  })
-
-  const fallingObjectAppear = fallingObjectCalculation();
-
-  
-
-
- 
+    document.addEventListener('click', (e1) => {
+      window.addEventListener("click", cursorClick)
+      return () => {
+        window.removeEventListener("click", cursorClick)
+      }
+    }) 
+  }, [])
   return (
 
     
 
     <AnimatePresence mode="wait">
-      {/* <motion.div>
-        
-      </motion.div> */}
       {removeCursor && <motion.div
         id="main"
         className="bg-white text-black"
@@ -108,7 +98,7 @@ export default function CursorEffect() {
         <FollowingObject
           id="Family" 
           movingSpeed={0.25}
-          rotationSpeed={1.7}
+          rotationSpeed={2}
           width={objectData["Family"].width}
           height={objectData["Family"].height}
           viewBox={objectData["Family"].viewBox}
@@ -119,17 +109,6 @@ export default function CursorEffect() {
           x={x} y={y}/>
 
       </motion.div>}
-      {/* {fallingObjectAppear && <motion.svg 
-        id="fallingObject"
-        initial={{ x: x, y: y }}
-        animate={{ y: height, scale: 2 }} 
-        exit={{ capacity: 0 }}
-        transition={{ duration: 5 }}
-        width={objectData["Family"].width} height={objectData["Family"].height} viewBox={objectData["Family"].viewBox} fill="none" xmlns="http://www.w3.org/2000/svg"
-        className="absolute" >
-        <path d={objectData["Family"].paths[0]} fill="#FFFFFF"/>
-    </motion.svg> } */}
-      
     </AnimatePresence>
     
 
