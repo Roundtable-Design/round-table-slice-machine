@@ -21,15 +21,15 @@ export default function FollowingObject(props) {
     return (
         <motion.div
             // className={`h-20px w-20px absolute rotate-180`}
-            initial={{ scale: 1, rotate: smth, x: props.x, y: props.y, }}
-            animate={{ scale: 1, x: props.x, y: props.y, }}
+            initial={{ scale: 0, rotate: smth, x: props.x, y: props.y, }}
+            animate={{ scale: 2, x: props.x, y: props.y, }}
             exit={{ scale: 0 }}
             transition={{ duration: props.movingSpeed }} >
             <motion.div
                 // initial={{ rotate: smth }}
                 animate={{ rotate: angles }}
                 transition={{ repeat: Infinity, duration: props.rotationSpeed }} 
-                className={`h-20px w-20px absolute`}
+                className={`h-10px w-10px absolute`}
                 >
                     <motion.svg 
                         width={props.width} height={props.height} viewBox={props.viewBox} fill="none" xmlns="http://www.w3.org/2000/svg"

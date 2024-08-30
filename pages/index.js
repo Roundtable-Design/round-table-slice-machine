@@ -7,6 +7,8 @@ import { components } from "../slices/";
 
 import DarkModeToggle from "../components/DarkModeToggle";
 import CursorEffect from "../customtypes/cursor/CursorEffect";
+import FallingObject from "../customtypes/cursor/FallingObject";
+import { useState, useEffect } from "react";
 
 /**
  * This component renders your homepage.
@@ -15,7 +17,11 @@ import CursorEffect from "../customtypes/cursor/CursorEffect";
  *
  * Use the SliceZone to render the content of the page.
  */
+
+
+
 export default function Index({ page }) {
+
   return (
     <main>
       
@@ -26,6 +32,10 @@ export default function Index({ page }) {
       </Head>
       <div className="min-h-screen bg-white dark:bg-gray-950">
         <header className="pointer-events-none fixed z-10 mix-blend-difference" >
+          {/* {array.length}
+          {
+            array.map(_=><CursorEffect />)
+          } */}
           <CursorEffect />
         </header>
         <header className="p-4">
