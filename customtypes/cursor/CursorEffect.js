@@ -167,10 +167,12 @@ export default function CursorEffect() {
                 movingSpeed={0.05 + index * 0.05} // different speeds
                 rotationSpeed={2}
                 width={
-                  index === 0 ? obj.width * 3 : obj.width * (2 - index * 0.3)
+                  index === 0 ? obj.width * 4 : obj.width * (2.5 - index * 0.3)
                 }
                 height={
-                  index === 0 ? obj.height * 3 : obj.height * (2 - index * 0.3)
+                  index === 0
+                    ? obj.height * 4
+                    : obj.height * (2.5 - index * 0.3)
                 }
                 viewBox={obj.viewBox}
                 paths={obj.paths}
