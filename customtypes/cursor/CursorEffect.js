@@ -42,8 +42,8 @@ export default function CursorEffect() {
       setTimeout(() => {
         setRemoveCursor(false);
         shuffleAndSetObjects();
-      }, 500);
-    }, 1500);
+      }, 750);
+    }, 3500);
   }
 
   function cursorClick() {
@@ -57,8 +57,8 @@ export default function CursorEffect() {
       setTimeout(() => {
         setRemoveCursor(false);
         shuffleAndSetObjects();
-      }, 500);
-    }, 800);
+      }, 750);
+    }, 3500);
   }
 
   useEffect(() => {
