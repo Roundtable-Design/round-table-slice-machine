@@ -18,24 +18,19 @@ import CursorEffect from "../customtypes/cursor/CursorEffect";
 export default function Index({ page }) {
   return (
     <main>
-      
       <Head>
-      
         <title>{prismicH.asText(page.data.title)}</title>
-        
       </Head>
-      <div className="min-h-screen bg-white dark:bg-gray-950">
-        <header className="pointer-events-none fixed z-10 mix-blend-difference" >
+      <div className="min-h-screen bg-white dark:bg-black">
+        <header className="pointer-events-none fixed z-10 mix-blend-difference">
           <CursorEffect />
         </header>
         <header className="p-4">
           <DarkModeToggle />
         </header>
         <SliceZone slices={page.data.slices} components={components} />
-        
       </div>
     </main>
-    
   );
 }
 
@@ -49,7 +44,7 @@ export async function getStaticProps({ previewData }) {
 
   return {
     props: {
-      page, 
+      page,
     },
   };
 }
