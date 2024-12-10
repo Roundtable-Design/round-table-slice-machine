@@ -1,27 +1,29 @@
 import { motion } from "framer-motion";
+import { useRef } from "react";
 
 export default function FollowingObject(props) {
+  const divRef = useRef(null);
+
   return (
     <motion.div
-      className="h-20 w-20"
+      ref={divRef}
+      className="absolute"
+      style={{ top: 0, left: 0, position: "absolute" }}
       initial={{ scale: 0, x: props.x, y: props.y }}
       animate={{ scale: 1, x: props.x - 20, y: props.y - 20 }}
       transition={{
-        x: props.converging
-          ? {
-              type: "spring",
-              stiffness: 50,
-              damping: 20,
-            }
-          : { duration: props.movingSpeed },
-        y: props.converging
-          ? {
-              type: "spring",
-              stiffness: 50,
-              damping: 20,
-            }
-          : { duration: props.movingSpeed },
+        x: { duration: props.movingSpeed },
+        y: { duration: props.movingSpeed },
         scale: { duration: props.movingSpeed },
+      }}
+      onUpdate={(latest) => {
+        // latest.x, latest.y are the current animated values
+        // Report back to parent
+        if (props.onObjectUpdate) {
+          const currentX = latest.x + 20; // Reverse the offset we applied in animate
+          const currentY = latest.y + 20;
+          props.onObjectUpdate(props.id, currentX, currentY);
+        }
       }}
     >
       <motion.svg
@@ -44,7 +46,7 @@ export default function FollowingObject(props) {
             key={index}
             exit={{ scale: 0 }}
             d={pathData}
-            fill="#FFFFFF"
+            fill={props.fill}
           />
         ))}
       </motion.svg>

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import FollowingObject from "./objects/FollowingObject";
 import useMousePosition from "./utils/useMousePosition";
-import fallingObjectCalculation from "./utils/fallingObjectCalculation";
 import objectData from "./svgs/svgs.json";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -15,162 +14,173 @@ function shuffleArray(array) {
 
 export default function CursorEffect() {
   const { x, y } = useMousePosition();
-  const [removeCursor, setRemoveCursor] = useState(true);
-  const [convergeToCursor, setConvergeToCursor] = useState(false);
+
   const [randomizedObjects, setRandomizedObjects] = useState([]);
-  const [initialPositions, setInitialPositions] = useState([]);
-  useState(false);
+  const [isMouseMoving, setIsMouseMoving] = useState(false);
+  const [convergingToMouse, setConvergingToMouse] = useState(false);
+  const [inStarShape, setInStarShape] = useState(true);
 
-  let timer;
+  const [targetPositions, setTargetPositions] = useState([]);
+  const objectPositions = useRef({}); // Store current positions of each object
+  const mouseStoppedTimeout = useRef(null);
 
-  function shuffleAndSetObjects() {
+  useEffect(() => {
     const shuffledObjects = shuffleArray([...Object.keys(objectData)]);
     setRandomizedObjects(shuffledObjects);
-  }
-
-  function cursorMovement() {
-    if (!removeCursor) {
-      shuffleAndSetObjects();
-    }
-    setRemoveCursor(true);
-    setConvergeToCursor(false);
-    clearTimeout(timer);
-
-    // timer = setTimeout(() => setRemoveCursor(false), 1500);
-    timer = setTimeout(() => {
-      setConvergeToCursor(true);
-      setTimeout(() => {
-        setRemoveCursor(false);
-        shuffleAndSetObjects();
-      }, 750);
-    }, 3500);
-  }
-
-  function cursorClick() {
-    setRemoveCursor(true);
-    setConvergeToCursor(false);
-    clearTimeout(timer);
-
-    // timer = setTimeout(() => setRemoveCursor(false), 800);
-    timer = setTimeout(() => {
-      setConvergeToCursor(true);
-      setTimeout(() => {
-        setRemoveCursor(false);
-        shuffleAndSetObjects();
-      }, 750);
-    }, 3500);
-  }
-
-  useEffect(() => {
-    shuffleAndSetObjects();
-
-    // Add event listeners to detect mouse movements and clicks
-    document.addEventListener("mousemove", cursorMovement);
-    document.addEventListener("click", cursorClick);
-
-    return () => {
-      document.removeEventListener("mousemove", cursorMovement);
-      document.removeEventListener("click", cursorClick);
-    };
   }, []);
 
+  // Detect if mouse is moving or stopped.
   useEffect(() => {
-    // circle positions of following objects
-    // const radius = 100;
-    // const positions = shuffledObjects.slice(1).map((_, index) => {
-    //   const angle = (index / (shuffledObjects.length - 1)) * Math.PI * 2;
-    //   return {
-    //     x: radius * Math.cos(angle),
-    //     y: radius * Math.sin(angle),
-    //   };
-    // });
-    // setInitialPositions(positions);
+    function handleMouseMove(e) {
+      setIsMouseMoving(true);
+      if (mouseStoppedTimeout.current)
+        clearTimeout(mouseStoppedTimeout.current);
 
-    const a = 100; // Starting distance from center
-    const b = 15; // Increased growth rate of the spiral for better spacing
-    const rotationOffset = Math.PI / 4;
+      // If there's no mousemove for 50ms, consider mouse stopped
+      mouseStoppedTimeout.current = setTimeout(() => {
+        setIsMouseMoving(false);
+      }, 50);
+    }
 
-    const positions = randomizedObjects.slice(1).map((_, index) => {
-      const angle = -index * 1.2 + rotationOffset; // Increased angle increment for more spacing between objects
-      const radius = a + b * Math.pow(index, 1.5);
-      // Use an increasing power for radius to open up more smoothly
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => document.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
-      return {
-        x: radius * Math.cos(angle),
-        y: radius * Math.sin(angle),
-      };
-    });
+  // When mouse stops, we start converging all objects to the mouse position.
+  // When mouse moves, objects just follow the mouse position.
+  useEffect(() => {
+    if (!isMouseMoving) {
+      // Mouse has stopped. Objects should move to mouse position.
+      // Reset converging state if we're not in star shape yet.
+      if (!inStarShape) {
+        setConvergingToMouse(true);
+      }
+    } else {
+      // Mouse is moving. Cancel converging to mouse.
+      // Objects follow mouse directly again.
+      setConvergingToMouse(false);
+      // When mouse moves, we are no longer in star shape.
+      // They should chase the mouse position, forming a trailing line naturally.
+      setInStarShape(false);
+    }
+  }, [isMouseMoving, inStarShape]);
 
-    setInitialPositions(positions);
-  }, [randomizedObjects]);
+  // Calculate the target positions based on current mode:
+  useEffect(() => {
+    if (randomizedObjects.length === 0 || x === null || y === null) return;
+
+    if (inStarShape) {
+      // STAR SHAPE:
+      // Arrange objects in a spiral (or any formation) around the mouse position.
+      // First object (star) stays right at the mouse position, the others arranged around.
+      const a = 100;
+      const b = 15;
+      const rotationOffset = Math.PI / 4;
+
+      const positions = randomizedObjects.map((key, index) => {
+        if (index === 0) {
+          return {
+            id: key,
+            x: x - objectData[key].width * 1.5,
+            y: y - objectData[key].height * 1.5,
+          };
+        }
+        const angle = -index * 1.2 + rotationOffset;
+        const radius = a + b * Math.pow(index, 1.5);
+        return {
+          id: key,
+          x: x + radius * Math.cos(angle),
+          y: y + radius * Math.sin(angle),
+        };
+      });
+      setTargetPositions(positions);
+    } else {
+      // LINE/CONVERGING MODE:
+      // If mouse is moving: all objects target the current mouse position (x,y).
+      // They have different speeds, so they naturally line up while chasing.
+      // If mouse is stopped and we are convergingToMouse = true:
+      // they still aim at the last known mouse position until they converge.
+      const positions = randomizedObjects.map((key, index) => {
+        // All objects target the mouse position (center object right at mouse)
+        return {
+          id: key,
+          x: x - (index === 0 ? objectData[key].width * 1.5 : 20),
+          y: y - (index === 0 ? objectData[key].height * 1.5 : 20),
+        };
+      });
+      setTargetPositions(positions);
+    }
+  }, [randomizedObjects, x, y, inStarShape]);
+
+  // Check for convergence when convergingToMouse is true.
+  // Convergence: all objects are close to the mouse position (within a certain threshold).
+  useEffect(() => {
+    if (!convergingToMouse) return;
+    if (randomizedObjects.length === 0) return;
+    if (x === null || y === null) return;
+
+    const checkConvergence = () => {
+      const threshold = 10; // how close they need to be to consider "reached"
+      let allClose = true;
+
+      for (let key of randomizedObjects) {
+        const pos = objectPositions.current[key];
+        if (!pos) {
+          allClose = false;
+          break;
+        }
+        const dist = Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
+        if (dist > threshold) {
+          allClose = false;
+          break;
+        }
+      }
+
+      if (allClose) {
+        // All objects converged to mouse position, now switch to star shape
+        setInStarShape(true);
+        setConvergingToMouse(false);
+      } else {
+        requestAnimationFrame(checkConvergence);
+      }
+    };
+    requestAnimationFrame(checkConvergence);
+  }, [convergingToMouse, randomizedObjects, x, y]);
+
+  // Callback from FollowingObject to track current positions
+  const handleObjectUpdate = (id, currentX, currentY) => {
+    objectPositions.current[id] = { x: currentX, y: currentY };
+  };
 
   return (
     <AnimatePresence mode="wait">
-      {removeCursor && x !== null && y !== null && (
+      {x !== null && y !== null && (
         <motion.div id="main" className="bg-white text-black">
-          {/* {randomizedObjects.map((key, index) => (
-            <FollowingObject
-              key={key}
-              id={key}
-              movingSpeed={0.075 + index * 0.05} // Adjust speed if needed
-              rotationSpeed={2 - index * 0.2} // Adjust rotation speed if needed
-              width={objectData[key].width * (2.5 - index * 0.2)} // Decrease width progressively
-              height={objectData[key].height * (2.5 - index * 0.2)} // Decrease height progressively
-              viewBox={objectData[key].viewBox}
-              paths={objectData[key].paths}
-              x={x + index * 30} // Increase horizontal spacing
-              y={y + index * 30} // Increase vertical spacing
-              fill={"#FFFFFF"}
-            />
-          ))} */}
+          {randomizedObjects.map((key, index) => {
+            const obj = objectData[key];
+            const tp = targetPositions.find((p) => p.id === key) || { x, y };
 
-          {/* Render the largest object at the center of the cursor */}
-          {randomizedObjects.length > 0 && (
-            <FollowingObject
-              key={randomizedObjects[0]}
-              id={randomizedObjects[0]}
-              movingSpeed={0.05} // Slowest for the largest one
-              rotationSpeed={2}
-              width={objectData[randomizedObjects[0]].width * 3}
-              height={objectData[randomizedObjects[0]].height * 3}
-              viewBox={objectData[randomizedObjects[0]].viewBox}
-              paths={objectData[randomizedObjects[0]].paths}
-              x={
-                convergeToCursor
-                  ? x - objectData[randomizedObjects[0]].width * 1.5
-                  : x - objectData[randomizedObjects[0]].width * 1.5
-              }
-              y={
-                convergeToCursor
-                  ? y - objectData[randomizedObjects[0]].height * 1.5
-                  : y - objectData[randomizedObjects[0]].height * 1.5
-              }
-              // x={convergeToCursor ? x - 20 : x - 20}
-              // y={convergeToCursor ? y : y}
-              fill={"#FFFFFF"}
-              converging={convergeToCursor}
-            />
-          )}
-
-          {/* Render the remaining objects around the cursor */}
-          {randomizedObjects.slice(1).map((key, index) => (
-            <FollowingObject
-              key={key}
-              id={key}
-              movingSpeed={0.075 + index * 0.05}
-              rotationSpeed={2}
-              width={objectData[key].width * (2 - index * 0.3)}
-              height={objectData[key].height * (2 - index * 0.3)}
-              viewBox={objectData[key].viewBox}
-              paths={objectData[key].paths}
-              // x={x + initialPositions[index]?.x || 0}
-              // y={y + initialPositions[index]?.y || 0}
-              x={convergeToCursor ? x : x + (initialPositions[index]?.x || 0)}
-              y={convergeToCursor ? y : y + (initialPositions[index]?.y || 0)}
-              fill={"#FFFFFF"}
-              converging={convergeToCursor}
-            />
-          ))}
+            return (
+              <FollowingObject
+                key={key}
+                id={key}
+                movingSpeed={0.05 + index * 0.05} // different speeds
+                rotationSpeed={2}
+                width={
+                  index === 0 ? obj.width * 3 : obj.width * (2 - index * 0.3)
+                }
+                height={
+                  index === 0 ? obj.height * 3 : obj.height * (2 - index * 0.3)
+                }
+                viewBox={obj.viewBox}
+                paths={obj.paths}
+                x={tp.x}
+                y={tp.y}
+                fill={"#FFFFFF"}
+                onObjectUpdate={handleObjectUpdate}
+              />
+            );
+          })}
         </motion.div>
       )}
     </AnimatePresence>
