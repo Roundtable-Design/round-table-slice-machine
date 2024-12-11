@@ -21,8 +21,55 @@ export default function CursorEffect() {
   const [inStarShape, setInStarShape] = useState(true);
 
   const [targetPositions, setTargetPositions] = useState([]);
-  const objectPositions = useRef({}); // Store current positions of each object
+  const objectPositions = useRef({});
   const mouseStoppedTimeout = useRef(null);
+
+  // ---- Reintroduced states and timer logic from old version ----
+  const [removeCursor, setRemoveCursor] = useState(true);
+  const timerRef = useRef(null);
+
+  // This function re-shuffles the objects, as in old code
+  function shuffleAndSetObjects() {
+    const shuffledObjects = shuffleArray([...Object.keys(objectData)]);
+    setRandomizedObjects(shuffledObjects);
+  }
+
+  // Logic from old version: On mouse move, show cursor immediately, then after a delay hide it, then show again.
+  function cursorMovement() {
+    // Cancel any existing timer
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    // Immediately show cursor (if it was hidden) and stop any convergence
+    setRemoveCursor(true);
+    setConvergingToMouse(false);
+
+    // After some delay, start convergence and then hide
+    timerRef.current = setTimeout(() => {
+      setConvergingToMouse(true);
+      timerRef.current = setTimeout(() => {
+        setRemoveCursor(false);
+        shuffleAndSetObjects();
+      }, 750);
+    }, 3500);
+  }
+
+  // Logic from old version: On click, do the same as cursor movement
+  function cursorClick() {
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    setRemoveCursor(true);
+    setConvergingToMouse(false);
+
+    timerRef.current = setTimeout(() => {
+      setConvergingToMouse(true);
+      timerRef.current = setTimeout(() => {
+        setRemoveCursor(false);
+        shuffleAndSetObjects();
+      }, 750);
+    }, 3500);
+  }
+
+  // -------------------------------------------------------------
 
   useEffect(() => {
     const shuffledObjects = shuffleArray([...Object.keys(objectData)]);
@@ -35,8 +82,6 @@ export default function CursorEffect() {
       setIsMouseMoving(true);
       if (mouseStoppedTimeout.current)
         clearTimeout(mouseStoppedTimeout.current);
-
-      // If there's no mousemove for 50ms, consider mouse stopped
       mouseStoppedTimeout.current = setTimeout(() => {
         setIsMouseMoving(false);
       }, 50);
@@ -50,17 +95,11 @@ export default function CursorEffect() {
   // When mouse moves, objects just follow the mouse position.
   useEffect(() => {
     if (!isMouseMoving) {
-      // Mouse has stopped. Objects should move to mouse position.
-      // Reset converging state if we're not in star shape yet.
       if (!inStarShape) {
         setConvergingToMouse(true);
       }
     } else {
-      // Mouse is moving. Cancel converging to mouse.
-      // Objects follow mouse directly again.
       setConvergingToMouse(false);
-      // When mouse moves, we are no longer in star shape.
-      // They should chase the mouse position, forming a trailing line naturally.
       setInStarShape(false);
     }
   }, [isMouseMoving, inStarShape]);
@@ -71,8 +110,6 @@ export default function CursorEffect() {
 
     if (inStarShape) {
       // STAR SHAPE:
-      // Arrange objects in a spiral (or any formation) around the mouse position.
-      // First object (star) stays right at the mouse position, the others arranged around.
       const a = 100;
       const b = 15;
       const rotationOffset = Math.PI / 4;
@@ -96,12 +133,7 @@ export default function CursorEffect() {
       setTargetPositions(positions);
     } else {
       // LINE/CONVERGING MODE:
-      // If mouse is moving: all objects target the current mouse position (x,y).
-      // They have different speeds, so they naturally line up while chasing.
-      // If mouse is stopped and we are convergingToMouse = true:
-      // they still aim at the last known mouse position until they converge.
       const positions = randomizedObjects.map((key, index) => {
-        // All objects target the mouse position (center object right at mouse)
         return {
           id: key,
           x: x - (index === 0 ? objectData[key].width * 1.5 : 20),
@@ -113,14 +145,13 @@ export default function CursorEffect() {
   }, [randomizedObjects, x, y, inStarShape]);
 
   // Check for convergence when convergingToMouse is true.
-  // Convergence: all objects are close to the mouse position (within a certain threshold).
   useEffect(() => {
     if (!convergingToMouse) return;
     if (randomizedObjects.length === 0) return;
     if (x === null || y === null) return;
 
     const checkConvergence = () => {
-      const threshold = 10; // how close they need to be to consider "reached"
+      const threshold = 10;
       let allClose = true;
 
       for (let key of randomizedObjects) {
@@ -137,7 +168,6 @@ export default function CursorEffect() {
       }
 
       if (allClose) {
-        // All objects converged to mouse position, now switch to star shape
         setInStarShape(true);
         setConvergingToMouse(false);
       } else {
@@ -152,9 +182,21 @@ export default function CursorEffect() {
     objectPositions.current[id] = { x: currentX, y: currentY };
   };
 
+  // Reintroduce event listeners for removeCursor logic:
+  useEffect(() => {
+    // On component mount, set up the movement and click listeners
+    document.addEventListener("mousemove", cursorMovement);
+    document.addEventListener("click", cursorClick);
+
+    return () => {
+      document.removeEventListener("mousemove", cursorMovement);
+      document.removeEventListener("click", cursorClick);
+    };
+  }, []);
+
   return (
     <AnimatePresence mode="wait">
-      {x !== null && y !== null && (
+      {removeCursor && x !== null && y !== null && (
         <motion.div id="main" className="bg-white text-black">
           {randomizedObjects.map((key, index) => {
             const obj = objectData[key];
