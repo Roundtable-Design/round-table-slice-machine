@@ -9,7 +9,7 @@ export { ServicesTeam, Header, Images, Footer, ImagesAndVideos };
 export const components = {
   services_team: ServicesTeam,
   header: Header,
-  // images: Images,
+  images: Images,
   footer: Footer,
   videos: ImagesAndVideos,
 };
