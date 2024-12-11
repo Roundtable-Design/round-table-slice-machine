@@ -1,7 +1,7 @@
 {
   "id": "videos",
   "type": "SharedSlice",
-  "name": "Videos",
+  "name": "ImagesAndVideos",
   "description": "Videos",
   "variations": [
     {
@@ -16,7 +16,7 @@
         "video": {
           "type": "Link",
           "config": {
-            "label": "Video",
+            "label": "Image/Video",
             "placeholder": "",
             "select": "media"
           }

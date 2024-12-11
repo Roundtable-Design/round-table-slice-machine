@@ -93,7 +93,11 @@ export type FooterDocument<Lang extends string = string> =
     Lang
   >;
 
-type PageDocumentDataSlicesSlice = never;
+type PageDocumentDataSlicesSlice =
+  | FooterSlice
+  | VideosSlice
+  | ServicesTeamSlice
+  | HeaderSlice;
 
 /**
  * Content for homepage documents
@@ -397,11 +401,11 @@ export type ServicesTeamSlice = prismic.SharedSlice<
 >;
 
 /**
- * Primary content in *Videos → Items*
+ * Primary content in *ImagesAndVideos → Items*
  */
 export interface VideosSliceDefaultItem {
   /**
-   * Video field in *Videos → Items*
+   * Image/Video field in *ImagesAndVideos → Items*
    *
    * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
@@ -412,7 +416,7 @@ export interface VideosSliceDefaultItem {
 }
 
 /**
- * Default variation for Videos Slice
+ * Default variation for ImagesAndVideos Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
@@ -425,12 +429,12 @@ export type VideosSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
- * Slice variation for *Videos*
+ * Slice variation for *ImagesAndVideos*
  */
 type VideosSliceVariation = VideosSliceDefault;
 
 /**
- * Videos Shared Slice
+ * ImagesAndVideos Shared Slice
  *
  * - **API ID**: `videos`
  * - **Description**: Videos
