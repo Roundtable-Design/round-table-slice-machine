@@ -90,7 +90,6 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
           <h6 className="lg:text-lg text-base font-medium max-w-l">
             {slice.primary.second_title_text}
           </h6>
-          {/* <PrismicRichText field={slice.primary.secondary_description} /> */}
           <PrismicRichText
             field={slice.primary.secondary_description}
             components={customLinkSerializer}
@@ -121,7 +120,10 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
             <div
               className={`${animationClass} overflow-hidden dark:text-white text-black`}
             >
-              <PrismicRichText field={slice.primary.button_description} />
+              <PrismicRichText
+                field={slice.primary.button_description}
+                components={customLinkSerializer}
+              />
             </div>
           )}
         </div>
