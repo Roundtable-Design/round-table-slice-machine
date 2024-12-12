@@ -35,7 +35,7 @@ const customLinkSerializer: JSXMapSerializer = {
       <a
         href={url}
         target={target}
-        className="text-black hover:text-black hover:underline inline-flex items-center group"
+        className="text-black hover:text-black inline-flex items-center group"
         rel={target === "_blank" ? "noopener noreferrer" : undefined}
       >
         {children}
