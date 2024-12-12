@@ -1,16 +1,58 @@
 import { Content } from "@prismicio/client";
-import { SliceComponentProps, PrismicRichText } from "@prismicio/react";
+import {
+  SliceComponentProps,
+  PrismicRichText,
+  JSXMapSerializer,
+} from "@prismicio/react";
+import {
+  FilledContentRelationshipField,
+  FilledLinkToWebField,
+  FilledLinkToMediaField,
+} from "@prismicio/types";
 import React from "react";
+import LinkIcon from "../../assets/icons/link.svg";
+
 /**
  * Props for `ServicesTeam`.
  */
 export type ServicesTeamProps = SliceComponentProps<Content.ServicesTeamSlice>;
 
 /**
+ * Custom serializer for rich text links.
+ */
+const customLinkSerializer: JSXMapSerializer = {
+  hyperlink: ({ children, node }) => {
+    const isWebLink = (link: any): link is FilledLinkToWebField =>
+      link.link_type === "Web";
+    const isMediaLink = (link: any): link is FilledLinkToMediaField =>
+      link.link_type === "Media";
+
+    const url = node.data?.url;
+    const target =
+      isWebLink(node.data) && node.data.target ? node.data.target : undefined;
+
+    return (
+      <a
+        href={url}
+        target={target}
+        className="text-black hover:text-black hover:underline inline-flex items-center group"
+        rel={target === "_blank" ? "noopener noreferrer" : undefined}
+      >
+        {children}
+        <LinkIcon
+          className="self-end ml-1 w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          width={20}
+          height={20}
+          alt=""
+        />
+      </a>
+    );
+  },
+};
+
+/**
  * Component for "ServicesTeam" Slices.
  */
-
-/* Slide down animation */
 
 const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
   const [showRichText, setShowRichText] = React.useState(false);
@@ -26,11 +68,10 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
       setRotateSVG("rotate-90");
     } else {
       setRotateSVG("rotate-0");
-      // setTimeout(() => setShowRichText(false), 750);
       setShowRichText(false);
     }
   };
-
+  console.log({ slice });
   return (
     <section
       data-slice-type={slice.slice_type}
@@ -49,7 +90,11 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
           <h6 className="lg:text-lg text-base font-medium max-w-l">
             {slice.primary.second_title_text}
           </h6>
-          <PrismicRichText field={slice.primary.secondary_description} />
+          {/* <PrismicRichText field={slice.primary.secondary_description} /> */}
+          <PrismicRichText
+            field={slice.primary.secondary_description}
+            components={customLinkSerializer}
+          />
         </div>
 
         <div className="mb-2">
@@ -73,7 +118,9 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
             </svg>
           </button>
           {showRichText && (
-            <div className={`${animationClass} overflow-hidden dark:text-white text-black`}>
+            <div
+              className={`${animationClass} overflow-hidden dark:text-white text-black`}
+            >
               <PrismicRichText field={slice.primary.button_description} />
             </div>
           )}
