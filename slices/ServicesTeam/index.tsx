@@ -11,7 +11,6 @@ import {
 } from "@prismicio/types";
 import React from "react";
 import LinkIcon from "../../assets/icons/link.svg";
-
 /**
  * Props for `ServicesTeam`.
  */
@@ -58,10 +57,6 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
   const [showRichText, setShowRichText] = React.useState(false);
   const [rotateSVG, setRotateSVG] = React.useState("");
 
-  const animationClass = !showRichText
-    ? "animate-fadeOutSlideUp"
-    : "animate-fadeInSlideDown";
-
   const toggleRichText = () => {
     if (!showRichText) {
       setShowRichText(true);
@@ -71,6 +66,10 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
       setShowRichText(false);
     }
   };
+
+  const animationClass = !showRichText
+    ? "animate-fadeOutSlideUp"
+    : "animate-fadeInSlideDown";
 
   return (
     <section
@@ -98,14 +97,14 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
 
         <div className="mb-2">
           <button
-            className="lg:text-lg text-base dark:text-white text-black font-medium max-w-l flex items-center justify-center gap-1"
+            className="lg:text-lg text-base dark:text-white text-black font-medium max-w-l flex items-center justify-center gap-1 group"
             onClick={toggleRichText}
           >
             {slice.primary.button_text}
             <svg
               width="12"
               height="12"
-              className={`align-middle mt-1 hover:rotate-90 duration-500 ${rotateSVG}`}
+              className={`align-middle mt-1 group-hover:rotate-90 duration-500 ${rotateSVG}`}
               viewBox="0 0 8 8"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -118,6 +117,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
           </button>
           {showRichText && (
             <div
+              id={"slideUpDown"}
               className={`${animationClass} overflow-hidden dark:text-white text-black`}
             >
               <PrismicRichText
