@@ -11,7 +11,6 @@ const SliceSimulatorPage = () => (
     )}
     state={{}}
   />
-  
 );
 
 export default SliceSimulatorPage;

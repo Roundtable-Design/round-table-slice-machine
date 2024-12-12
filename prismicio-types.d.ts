@@ -33,17 +33,6 @@ interface FooterDocumentData {
   description: prismic.RichTextField;
 
   /**
-   * Reviews field in *Footer*
-   *
-   * - **Field Type**: Embed
-   * - **Placeholder**: *None*
-   * - **API ID Path**: footer.reviews
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#embed
-   */
-  reviews: prismic.EmbedField;
-
-  /**
    * Privacy Link field in *Footer*
    *
    * - **Field Type**: Link
@@ -66,7 +55,7 @@ interface FooterDocumentData {
   cookie_link: prismic.LinkField;
 
   /**
-   * `slices` field in *Footer*
+   * Slice Zone field in *Footer*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -94,7 +83,6 @@ export type FooterDocument<Lang extends string = string> =
   >;
 
 type PageDocumentDataSlicesSlice =
-  | FooterSlice
   | VideosSlice
   | ServicesTeamSlice
   | HeaderSlice;
@@ -128,78 +116,6 @@ export type PageDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 export type AllDocumentTypes = FooterDocument | PageDocument;
-
-/**
- * Primary content in *Footer → Primary*
- */
-export interface FooterSliceDefaultPrimary {
-  /**
-   * Title field in *Footer → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: footer.primary.title
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  title: prismic.KeyTextField;
-
-  /**
-   * Description field in *Footer → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: footer.primary.description
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  description: prismic.RichTextField;
-
-  /**
-   * Privacy Link field in *Footer → Primary*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: footer.primary.privacy_link
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  privacy_link: prismic.LinkField;
-
-  /**
-   * Cookie Link field in *Footer → Primary*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: footer.primary.cookie_link
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  cookie_link: prismic.LinkField;
-}
-
-/**
- * Default variation for Footer Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type FooterSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<FooterSliceDefaultPrimary>,
-  never
->;
-
-/**
- * Slice variation for *Footer*
- */
-type FooterSliceVariation = FooterSliceDefault;
-
-/**
- * Footer Shared Slice
- *
- * - **API ID**: `footer`
- * - **Description**: Footer
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type FooterSlice = prismic.SharedSlice<"footer", FooterSliceVariation>;
 
 /**
  * Primary content in *Header → Primary*
@@ -417,10 +333,6 @@ declare module "@prismicio/client" {
       PageDocumentData,
       PageDocumentDataSlicesSlice,
       AllDocumentTypes,
-      FooterSlice,
-      FooterSliceDefaultPrimary,
-      FooterSliceVariation,
-      FooterSliceDefault,
       HeaderSlice,
       HeaderSliceDefaultPrimary,
       HeaderSliceVariation,
