@@ -264,48 +264,6 @@ type HeaderSliceVariation = HeaderSliceDefault;
 export type HeaderSlice = prismic.SharedSlice<"header", HeaderSliceVariation>;
 
 /**
- * Primary content in *Images → Items*
- */
-export interface ImagesSliceDefaultItem {
-  /**
-   * Image field in *Images → Items*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: images.items[].image
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image: prismic.ImageField<never>;
-}
-
-/**
- * Default variation for Images Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type ImagesSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Record<string, never>,
-  Simplify<ImagesSliceDefaultItem>
->;
-
-/**
- * Slice variation for *Images*
- */
-type ImagesSliceVariation = ImagesSliceDefault;
-
-/**
- * Images Shared Slice
- *
- * - **API ID**: `images`
- * - **Description**: Images
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type ImagesSlice = prismic.SharedSlice<"images", ImagesSliceVariation>;
-
-/**
  * Primary content in *ServicesTeam → Primary*
  */
 export interface ServicesTeamSliceDefaultPrimary {
@@ -467,10 +425,6 @@ declare module "@prismicio/client" {
       HeaderSliceDefaultPrimary,
       HeaderSliceVariation,
       HeaderSliceDefault,
-      ImagesSlice,
-      ImagesSliceDefaultItem,
-      ImagesSliceVariation,
-      ImagesSliceDefault,
       ServicesTeamSlice,
       ServicesTeamSliceDefaultPrimary,
       ServicesTeamSliceVariation,
