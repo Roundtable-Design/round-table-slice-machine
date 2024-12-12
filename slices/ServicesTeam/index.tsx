@@ -71,7 +71,7 @@ const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
       setShowRichText(false);
     }
   };
-  console.log({ slice });
+
   return (
     <section
       data-slice-type={slice.slice_type}

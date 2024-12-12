@@ -20,15 +20,13 @@ const Header = ({ slice }: HeaderProps): JSX.Element => {
         <PrismicNextImage
           field={slice.primary.logo}
           className="block dark:hidden"
-          width={43}
-          height={43}
+          style={{ width: "43px", height: "auto" }}
           alt=""
         />
         <PrismicNextImage
           field={slice.primary.logo_dark_mode}
           className="hidden dark:block"
-          width={43}
-          height={43}
+          style={{ width: "43px", height: "auto" }}
           alt=""
         />
       </div>

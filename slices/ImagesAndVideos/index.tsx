@@ -111,9 +111,10 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
                     copyright: "",
                   } as any
                 }
-                imgixParams={{ auto: undefined, fit: "max", w: 750 }}
+                imgixParams={{ auto: undefined, fit: "max", w: 750, h: 170 }}
                 width={750}
                 height={170}
+                priority
                 className="grayscale transition filter duration-500 hover:grayscale-0 absolute top-0 left-0 w-full h-full object-cover"
               />
             )}
