@@ -35,12 +35,12 @@ const customLinkSerializer: JSXMapSerializer = {
       <a
         href={url}
         target={target}
-        className="text-black hover:text-black inline-flex items-center group"
+        className="text-black dark:text-white inline-flex items-center group"
         rel={target === "_blank" ? "noopener noreferrer" : undefined}
       >
         {children}
         <LinkIcon
-          className="self-end ml-1 w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          className="self-end ml-1 w-5 h-5 text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
           width={20}
           height={20}
           alt=""
