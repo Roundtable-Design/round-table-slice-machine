@@ -27,6 +27,7 @@
         "config": {
           "label": "Privacy Link",
           "placeholder": "",
+          "allowTargetBlank": true,
           "select": null
         }
       },
@@ -35,6 +36,7 @@
         "config": {
           "label": "Cookie Link",
           "placeholder": "",
+          "allowTargetBlank": true,
           "select": null
         }
       },

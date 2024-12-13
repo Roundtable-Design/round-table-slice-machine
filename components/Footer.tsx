@@ -1,8 +1,8 @@
 import { Content } from "@prismicio/client";
 import { PrismicNextLink } from "@prismicio/next";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
-import Script from "next/script";
 import React, { useEffect } from "react";
+import Link from "next/link";
 
 export type FooterProps = Content.FooterDocument;
 
@@ -16,12 +16,12 @@ export default function Footer({ data }: FooterProps) {
           </h6>
           <PrismicRichText field={data.description} />
           <div className="mt-2 flex flex-col">
-            {data.privacy_link && (
+            {data.privacy_link.link_type !== "Any" && (
               <PrismicNextLink field={data.privacy_link}>
                 Privacy policy
               </PrismicNextLink>
             )}
-            {data.cookie_link && (
+            {data.cookie_link.link_type !== "Any" && (
               <PrismicNextLink field={data.cookie_link}>
                 Cookie policy
               </PrismicNextLink>
