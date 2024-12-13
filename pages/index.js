@@ -17,8 +17,6 @@ import Footer from "../components/Footer";
  * Use the SliceZone to render the content of the page.
  */
 export default function Index({ page, footer }) {
-  console.log(footer);
-
   return (
     <main>
       <Head>
