@@ -69,21 +69,35 @@ const customLinkSerializer: JSXMapSerializer = {
 
 const ServicesTeam = ({ slice }: ServicesTeamProps): JSX.Element => {
   const [showRichText, setShowRichText] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
   const [rotateSVG, setRotateSVG] = React.useState("");
 
   const toggleRichText = () => {
     if (!showRichText) {
       setShowRichText(true);
+      setIsVisible(true);
       setRotateSVG("rotate-90");
     } else {
+      setIsVisible(false);
       setRotateSVG("rotate-0");
-      setShowRichText(false);
     }
   };
 
-  const animationClass = !showRichText
-    ? "animate-fadeOutSlideUp"
-    : "animate-fadeInSlideDown";
+  React.useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    if (!isVisible && showRichText) {
+      timeoutId = setTimeout(() => {
+        setShowRichText(false);
+      }, 700);
+    }
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [isVisible, showRichText]);
+
+  const animationClass = isVisible
+    ? "animate-fadeInSlideDown"
+    : "animate-fadeOutSlideUp";
 
   return (
     <section
