@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     fontFamily: {
       display: "founders-grotesk",
-      body: '"founders-grotesk',
+      body: "founders-grotesk",
     },
     extend: {
       keyframes: {
