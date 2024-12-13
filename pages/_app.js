@@ -51,17 +51,19 @@ const richTextComponents = {
 
 export default function App({ Component, pageProps }) {
   return (
-    <PrismicProvider
-      internalLinkComponent={(props) => <Link {...props} />}
-      richTextComponents={richTextComponents}
-    >
-      <PrismicPreview repositoryName={repositoryName}>
-        <Component {...pageProps} />
-      </PrismicPreview>
+    <>
       <Script
         src="https://widget.clutch.co/static/js/widget.js"
-        strategy="afterInteractive"
+        strategy="beforeInteractive"
       />
-    </PrismicProvider>
+      <PrismicProvider
+        internalLinkComponent={(props) => <Link {...props} />}
+        richTextComponents={richTextComponents}
+      >
+        <PrismicPreview repositoryName={repositoryName}>
+          <Component {...pageProps} />
+        </PrismicPreview>
+      </PrismicProvider>
+    </>
   );
 }
