@@ -8,8 +8,8 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      display: "founders-grotesk",
-      body: "founders-grotesk",
+      display: ["founders-grotesk", "Sora", "Source Sans Pro", "sans-serif"],
+      body: ["founders-grotesk", "Sora", "Source Sans Pro", "sans-serif"],
     },
     extend: {
       keyframes: {
