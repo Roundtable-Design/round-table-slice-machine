@@ -24,10 +24,9 @@ export default function Footer({ data }: FooterProps) {
             </PrismicNextLink>
           </div>
         </div>
-
         <div className="w-auto h-auto">
           <div
-            className="w-full clutch-widget bg-white p-1 rounded "
+            className="w-full clutch-widget bg-white p-1 rounded"
             data-url="https://widget.clutch.co"
             data-widget-type="2"
             data-height="45"

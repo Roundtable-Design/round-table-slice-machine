@@ -3,6 +3,7 @@ import { PrismicProvider } from "@prismicio/react";
 import { PrismicPreview } from "@prismicio/next";
 import { repositoryName } from "../prismicio";
 import "../styles/globals.css";
+import Script from "next/script";
 
 const richTextComponents = {
   heading1: ({ children }) => (
@@ -57,6 +58,10 @@ export default function App({ Component, pageProps }) {
       <PrismicPreview repositoryName={repositoryName}>
         <Component {...pageProps} />
       </PrismicPreview>
+      <Script
+        src="https://widget.clutch.co/static/js/widget.js"
+        strategy="afterInteractive"
+      />
     </PrismicProvider>
   );
 }
