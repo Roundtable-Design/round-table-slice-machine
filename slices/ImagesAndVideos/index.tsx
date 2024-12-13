@@ -87,10 +87,13 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
                   videoRefs.current[i] = el;
                 }}
                 src={video.url}
-                className="grayscale transition filter duration-500 hover:grayscale-0 absolute top-0 left-0 w-full h-full object-cover"
+                className="grayscale transition filter 
+                duration-500 hover:grayscale-0 absolute 
+                top-0 left-0 w-full h-full object-cover"
                 loop
                 muted
                 playsInline
+                preload="metadata"
                 onMouseEnter={() => handleMouseEnter(i)}
                 onMouseLeave={() => handleMouseLeave(i)}
               >
