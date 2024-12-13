@@ -16,12 +16,16 @@ export default function Footer({ data }: FooterProps) {
           </h6>
           <PrismicRichText field={data.description} />
           <div className="mt-2 flex flex-col">
-            <PrismicNextLink field={data.privacy_link}>
-              Privacy policy
-            </PrismicNextLink>
-            <PrismicNextLink field={data.cookie_link}>
-              Cookie policy
-            </PrismicNextLink>
+            {data.privacy_link && (
+              <PrismicNextLink field={data.privacy_link}>
+                Privacy policy
+              </PrismicNextLink>
+            )}
+            {data.cookie_link && (
+              <PrismicNextLink field={data.cookie_link}>
+                Cookie policy
+              </PrismicNextLink>
+            )}
           </div>
         </div>
         <div className="w-auto h-auto">
