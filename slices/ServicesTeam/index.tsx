@@ -49,7 +49,7 @@ const customLinkSerializer: JSXMapSerializer = {
           {children}
         </span>
         <LinkIcon
-          className="ml-1 text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          className="ml-1 text-black dark:text-white md:opacity-0 sm:opacity-1 group-hover:opacity-100 transition-opacity duration-200"
           style={{
             verticalAlign: "middle",
             transform: "translateY(2px)",
