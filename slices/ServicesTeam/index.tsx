@@ -36,10 +36,15 @@ const customLinkSerializer: JSXMapSerializer = {
         target={target}
         className="text-black dark:text-white inline-flex items-center group"
         rel={target === "_blank" ? "noopener noreferrer" : undefined}
+        style={{ lineHeight: 1 }}
       >
         {children}
         <LinkIcon
-          className="self-end ml-1 w-5 h-5 text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          className="ml-1 text-black dark:text-white opacity-1 group-hover:opacity-100 transition-opacity duration-200"
+          style={{
+            verticalAlign: "middle",
+            transform: "translateY(2px)",
+          }}
           width={20}
           height={20}
           alt=""
