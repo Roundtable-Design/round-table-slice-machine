@@ -2,7 +2,7 @@ import { Content } from "@prismicio/client";
 import { PrismicNextLink } from "@prismicio/next";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import React, { useEffect } from "react";
-import Link from "next/link";
+import ClutchWidget from "./ClutchWidget";
 
 export type FooterProps = Content.FooterDocument;
 
@@ -29,7 +29,7 @@ export default function Footer({ data }: FooterProps) {
           </div>
         </div>
         <div className="w-auto h-auto">
-          <div
+          {/* <div
             className="w-full clutch-widget bg-white p-1 rounded"
             data-url="https://widget.clutch.co"
             data-widget-type="2"
@@ -38,7 +38,8 @@ export default function Footer({ data }: FooterProps) {
             data-expandifr="true"
             data-scale="100"
             data-clutchcompany-id="2017780"
-          ></div>
+          ></div> */}
+          <ClutchWidget />
         </div>
       </div>
     </footer>
