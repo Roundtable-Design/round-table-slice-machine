@@ -32,8 +32,8 @@ export default function Footer({ data }: FooterProps) {
             )}
           </div>
         </div>
-        {/* <div className="w-auto h-auto" id='clutch'>
-          < ClutchWidget />
+        {/* <div suppressHydrationWarning className="w-auto h-auto" id="clutch">
+          <ClutchWidget />
         </div> */}
       </div>
     </footer>

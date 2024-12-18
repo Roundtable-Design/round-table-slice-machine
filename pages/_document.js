@@ -12,16 +12,18 @@ export default function Document() {
       </Head>
       <body>
         <Main />
-        <div
-          className="w-full bg-white p-2 clutch-widget dark:bg-black"
-          data-url="https://widget.clutch.co"
-          data-widget-type="2"
-          data-height="45"
-          data-nofollow="true"
-          data-expandifr="true"
-          data-clutchcompany-id="2017780"
-        ></div>
         <NextScript />
+        <div className="w-full bg-black dark:bg-black flex justify-stretch md:justify-end p-2 lg:p-5">
+          <div
+            className="w-full md:w-auto bg-white p-2 rounded clutch-widget"
+            data-url="https://widget.clutch.co"
+            data-widget-type="2"
+            data-height="45"
+            data-nofollow="true"
+            data-expandifr="true"
+            data-clutchcompany-id="2017780"
+          ></div>
+        </div>
       </body>
     </Html>
   );
