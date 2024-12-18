@@ -3,7 +3,6 @@ import { PrismicProvider } from "@prismicio/react";
 import { PrismicPreview } from "@prismicio/next";
 import { repositoryName } from "../prismicio";
 import "../styles/globals.css";
-import Script from "next/script";
 
 const richTextComponents = {
   heading1: ({ children }) => (
@@ -52,10 +51,6 @@ const richTextComponents = {
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <Script
-        src="https://widget.clutch.co/static/js/widget.js"
-        strategy="beforeInteractive"
-      />
       <PrismicProvider
         internalLinkComponent={(props) => <Link {...props} />}
         richTextComponents={richTextComponents}

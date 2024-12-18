@@ -1,8 +1,12 @@
 import { Content } from "@prismicio/client";
 import { PrismicNextLink } from "@prismicio/next";
-import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
-import React, { useEffect } from "react";
-import ClutchWidget from "./ClutchWidget";
+import { PrismicRichText } from "@prismicio/react";
+import React from "react";
+// import dynamic from "next/dynamic";
+
+// const ClutchWidget = dynamic(() => import("../components/ClutchWidget"), {
+//   ssr: false,
+// });
 
 export type FooterProps = Content.FooterDocument;
 
@@ -28,9 +32,9 @@ export default function Footer({ data }: FooterProps) {
             )}
           </div>
         </div>
-        <div className="w-auto h-auto">
-          <ClutchWidget />
-        </div>
+        {/* <div className="w-auto h-auto" id='clutch'>
+          < ClutchWidget />
+        </div> */}
       </div>
     </footer>
   );
