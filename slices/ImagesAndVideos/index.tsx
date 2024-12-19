@@ -128,6 +128,7 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
                 muted
                 playsInline
                 poster={posters[i]}
+                crossOrigin="anonymous"
                 onMouseEnter={() => handleMouseEnter(i)}
                 onMouseLeave={() => handleMouseLeave(i)}
               >
