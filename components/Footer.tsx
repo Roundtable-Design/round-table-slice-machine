@@ -1,8 +1,12 @@
 import { Content } from "@prismicio/client";
 import { PrismicNextLink } from "@prismicio/next";
-import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
-import React, { useEffect } from "react";
-import Link from "next/link";
+import { PrismicRichText } from "@prismicio/react";
+import React from "react";
+// import dynamic from "next/dynamic";
+
+// const ClutchWidget = dynamic(() => import("../components/ClutchWidget"), {
+//   ssr: false,
+// });
 
 export type FooterProps = Content.FooterDocument;
 
@@ -28,18 +32,9 @@ export default function Footer({ data }: FooterProps) {
             )}
           </div>
         </div>
-        <div className="w-auto h-auto">
-          <div
-            className="w-full clutch-widget bg-white p-1 rounded"
-            data-url="https://widget.clutch.co"
-            data-widget-type="2"
-            data-height="45"
-            data-nofollow="true"
-            data-expandifr="true"
-            data-scale="100"
-            data-clutchcompany-id="2017780"
-          ></div>
-        </div>
+        {/* <div suppressHydrationWarning className="w-auto h-auto" id="clutch">
+          <ClutchWidget />
+        </div> */}
       </div>
     </footer>
   );

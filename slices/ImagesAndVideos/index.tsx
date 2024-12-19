@@ -2,7 +2,6 @@ import { Content } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage } from "@prismicio/next";
 import React, { useRef } from "react";
-
 /**
  * Custom type for media fields based on observed API response.
  * Adjust this to match the actual fields you receive for media items.
@@ -30,11 +29,42 @@ const hasUrl = (video: any): video is { url: string } => {
   return video && typeof video.url === "string";
 };
 
+const extractPosterFromVideo = (videoUrl: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement("video");
+    video.src = videoUrl;
+    video.crossOrigin = "anonymous";
+    video.currentTime = 1; // Seek to 1 second
+
+    video.addEventListener("loadeddata", () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext("2d");
+
+      video.addEventListener("seeked", () => {
+        if (context) {
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const posterUrl = canvas.toDataURL("image/jpeg");
+          resolve(posterUrl);
+        } else {
+          reject("Canvas context is not available.");
+        }
+      });
+    });
+
+    video.addEventListener("error", () => {
+      reject("Failed to load video for poster extraction.");
+    });
+  });
+};
+
 const Videos = ({ slice }: VideosProps): JSX.Element => {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [randomVideos, setRandomVideos] = React.useState<
     Content.VideosSlice["items"]
   >([]);
+  const [posters, setPosters] = React.useState<Record<number, string>>({});
 
   const handleMouseEnter = (index: number) => {
     videoRefs.current[index]?.play();
@@ -65,6 +95,20 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
         () => 0.5 - Math.random()
       );
       setRandomVideos(finalSelection);
+      console.log([selectedVideos]);
+
+      // Extract posters for videos
+      // selectedVideos.forEach((item, index) => {
+      //   if (hasUrl(item.video)) {
+      //     extractPosterFromVideo(item.video.url)
+      //       .then((posterUrl) => {
+      //         setPosters((prev) => ({ ...prev, [index]: posterUrl }));
+      //       })
+      //       .catch(() => {
+      //         setPosters((prev) => ({ ...prev, [index]: "/posters/bfl.png" })); // Fallback poster
+      //       });
+      //   }
+      // });
     }
   }, [slice]);
 
@@ -93,7 +137,14 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
                 loop
                 muted
                 playsInline
-                preload="metadata"
+                // poster={posters[i]}
+                poster={
+                  video.name == "PSCI.mp4"
+                    ? "/posters/psci.jpeg"
+                    : "/posters/bfl.png"
+                }
+                // || "/posters/flower.webp"
+                crossOrigin="anonymous"
                 onMouseEnter={() => handleMouseEnter(i)}
                 onMouseLeave={() => handleMouseLeave(i)}
               >
