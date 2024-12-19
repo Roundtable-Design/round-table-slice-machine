@@ -101,7 +101,6 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
         if (hasUrl(item.video)) {
           extractPosterFromVideo(item.video.url)
             .then((posterUrl) => {
-              console.log({ posterUrl });
               setPosters((prev) => ({ ...prev, [index]: posterUrl }));
             })
             .catch(() => {
