@@ -95,19 +95,20 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
         () => 0.5 - Math.random()
       );
       setRandomVideos(finalSelection);
+      console.log([selectedVideos]);
 
       // Extract posters for videos
-      selectedVideos.forEach((item, index) => {
-        if (hasUrl(item.video)) {
-          extractPosterFromVideo(item.video.url)
-            .then((posterUrl) => {
-              setPosters((prev) => ({ ...prev, [index]: posterUrl }));
-            })
-            .catch(() => {
-              setPosters((prev) => ({ ...prev, [index]: "/posters/bfl.png" })); // Fallback poster
-            });
-        }
-      });
+      // selectedVideos.forEach((item, index) => {
+      //   if (hasUrl(item.video)) {
+      //     extractPosterFromVideo(item.video.url)
+      //       .then((posterUrl) => {
+      //         setPosters((prev) => ({ ...prev, [index]: posterUrl }));
+      //       })
+      //       .catch(() => {
+      //         setPosters((prev) => ({ ...prev, [index]: "/posters/bfl.png" })); // Fallback poster
+      //       });
+      //   }
+      // });
     }
   }, [slice]);
 
@@ -134,8 +135,13 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
                 loop
                 muted
                 playsInline
-                poster={posters[i]}
-                // || "/posters/bfl.png"
+                // poster={posters[i]}
+                poster={
+                  video.name == "PSCI.mp4"
+                    ? "/posters/psci.jpeg"
+                    : "/posters/bfl.png"
+                }
+                // || "/posters/flower.webp"
                 crossOrigin="anonymous"
                 onMouseEnter={() => handleMouseEnter(i)}
                 onMouseLeave={() => handleMouseLeave(i)}
