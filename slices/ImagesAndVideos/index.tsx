@@ -95,7 +95,6 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
         () => 0.5 - Math.random()
       );
       setRandomVideos(finalSelection);
-      console.log([selectedVideos]);
 
       // Extract posters for videos
       // selectedVideos.forEach((item, index) => {
