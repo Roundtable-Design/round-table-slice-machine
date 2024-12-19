@@ -50,7 +50,7 @@ export default function CursorEffect() {
         setRemoveCursor(false);
         shuffleAndSetObjects();
       }, 750);
-    }, 3500);
+    }, 2500);
   }
 
   // Logic from old version: On click, do the same as cursor movement
@@ -66,7 +66,7 @@ export default function CursorEffect() {
         setRemoveCursor(false);
         shuffleAndSetObjects();
       }, 750);
-    }, 3500);
+    }, 2500);
   }
 
   // -------------------------------------------------------------
