@@ -12,48 +12,52 @@ interface ExtendedMediaField {
   kind?: "image" | "file";
   width?: string;
   height?: string;
-  // If 'name' exists in your API responses, keep this. Otherwise remove it.
   name?: string;
-  // Add other fields if needed, like 'size', etc.
 }
 
-/**
- * Props for `Videos`.
- */
 export type VideosProps = SliceComponentProps<Content.VideosSlice>;
 
-/**
- * Type guard to check if a link field has a URL.
- */
 const hasUrl = (video: any): video is { url: string } => {
   return video && typeof video.url === "string";
 };
 
 const extractPosterFromVideo = (videoUrl: string): Promise<string> => {
   return new Promise((resolve, reject) => {
+    if (typeof document === "undefined") {
+      // If we are not in the browser, reject immediately.
+      return reject("Not in browser environment.");
+    }
+
+    console.log("Attempting to extract poster from:", videoUrl);
+
     const video = document.createElement("video");
     video.src = videoUrl;
     video.crossOrigin = "anonymous";
-    video.currentTime = 1; // Seek to 1 second
 
-    video.addEventListener("loadeddata", () => {
+    // Listen when metadata (like duration, videoWidth, videoHeight) is ready
+    video.addEventListener("loadedmetadata", () => {
+      // Set currentTime after metadata is loaded
+      video.currentTime = 1;
+    });
+
+    // Once we have a frame loaded
+    video.addEventListener("seeked", () => {
+      console.log("Video seeked event fired for:", videoUrl);
       const canvas = document.createElement("canvas");
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       const context = canvas.getContext("2d");
-
-      video.addEventListener("seeked", () => {
-        if (context) {
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const posterUrl = canvas.toDataURL("image/jpeg");
-          resolve(posterUrl);
-        } else {
-          reject("Canvas context is not available.");
-        }
-      });
+      if (context) {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const posterUrl = canvas.toDataURL("image/jpeg");
+        resolve(posterUrl);
+      } else {
+        reject("Canvas context is not available.");
+      }
     });
 
-    video.addEventListener("error", () => {
+    video.addEventListener("error", (e) => {
+      console.error("Failed to load video:", videoUrl, e);
       reject("Failed to load video for poster extraction.");
     });
   });
@@ -76,38 +80,56 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
 
   React.useEffect(() => {
     if (slice?.items?.length > 0) {
-      // Assume the items come with `video` that matches ExtendedMediaField or can be casted to it
-      const items = slice.items.map((item) => {
-        const video = item.video as ExtendedMediaField;
-        return { ...item, video };
-      });
+      if (slice?.items?.length > 0) {
+        const items = slice.items.map((item) => {
+          const video = item.video as ExtendedMediaField;
+          return { ...item, video };
+        });
 
-      const images = items.filter((item) => item.video.kind === "image");
-      const videos = items.filter((item) => item.video.kind === "file");
+        const images = items.filter((item) => item.video.kind === "image");
+        const videos = items.filter((item) => item.video.kind === "file");
 
-      const shuffledImages = images.sort(() => 0.5 - Math.random());
-      const shuffledVideos = videos.sort(() => 0.5 - Math.random());
+        const shuffledImages = images.sort(() => 0.5 - Math.random());
+        const shuffledVideos = videos.sort(() => 0.5 - Math.random());
 
-      const selectedImages = shuffledImages.slice(0, 6);
-      const selectedVideos = shuffledVideos.slice(0, 2);
+        const selectedImages = shuffledImages.slice(0, 6);
+        const selectedVideos = shuffledVideos.slice(0, 2);
 
-      const finalSelection = [...selectedImages, ...selectedVideos].sort(
-        () => 0.5 - Math.random()
-      );
-      setRandomVideos(finalSelection);
+        const finalSelection = [...selectedImages, ...selectedVideos].sort(
+          () => 0.5 - Math.random()
+        );
+        setRandomVideos(finalSelection);
 
-      // Extract posters for videos
-      // selectedVideos.forEach((item, index) => {
-      //   if (hasUrl(item.video)) {
-      //     extractPosterFromVideo(item.video.url)
-      //       .then((posterUrl) => {
-      //         setPosters((prev) => ({ ...prev, [index]: posterUrl }));
-      //       })
-      //       .catch(() => {
-      //         setPosters((prev) => ({ ...prev, [index]: "/posters/bfl.png" })); // Fallback poster
-      //       });
-      //   }
-      // });
+        // Extract posters for videos
+        // selectedVideos.forEach((item, index) => {
+        //   if (hasUrl(item.video)) {
+        //     console.log("Extracting poster for video:", item.video.url);
+        //     extractPosterFromVideo(item.video.url)
+        //       .then((posterUrl) => {
+        //         console.log(
+        //           "Poster extracted at index " + index + ": ",
+        //           posterUrl
+        //         );
+        //         setPosters((prev) => ({ ...prev, [index]: posterUrl }));
+        //       })
+        //       .catch((err) => {
+        //         console.warn(
+        //           "Failed to extract poster for:",
+        //           item.video.url,
+        //           err
+        //         );
+        //         setPosters((prev) => ({
+        //           ...prev,
+        //           [index]: "/posters/flower.webp",
+        //         }));
+        //       });
+        //   } else {
+        //     console.log("No URL found for video at index:", index);
+        //   }
+        // });
+      } else {
+        console.log("No items in slice.");
+      }
     }
   }, [slice]);
 
@@ -138,7 +160,13 @@ const Videos = ({ slice }: VideosProps): JSX.Element => {
                 poster={
                   video.name == "PSCI.mp4"
                     ? "/posters/psci.jpeg"
-                    : "/posters/bfl.png"
+                    : video.name == "Hanbury Hall.mp4"
+                      ? "/posters/Hanbury Hall.jpg"
+                      : video.name == "Avanos.mp4"
+                        ? "/posters/Avanos.jpg"
+                        : video.name == "Karibu.mp4"
+                          ? "/posters/Karibu.jpg"
+                          : "/posters/bfl.png"
                 }
                 // || "/posters/flower.webp"
                 crossOrigin="anonymous"
