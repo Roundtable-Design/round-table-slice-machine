@@ -6,7 +6,10 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // Detect if user is on a mobile device
 const isMobileDevice = () => {
-  return /Mobi|Android/i.test(navigator.userAgent);
+  if (typeof navigator !== "undefined") {
+    return /Mobi|Android/i.test(navigator.userAgent);
+  }
+  return false; // Default to false if navigator is not defined
 };
 
 function shuffleArray(array) {
@@ -45,7 +48,10 @@ export default function CursorEffect() {
       return;
     }
 
-    const angle = Math.random() * Math.PI - Math.PI / 2; // Narrower upward angle (-30° to 30°)
+    // const angle = Math.random() * Math.PI - Math.PI / 2; // Narrower upward angle (-30° to 30°)
+    const minAngle = (30 * Math.PI) / 180; // 30° in radians
+    const maxAngle = (150 * Math.PI) / 180; // 150° in radians
+    const angle = Math.random() * (maxAngle - minAngle) + minAngle;
     const speed = Math.random() * 3 + 3; // Adjusted speed range (6 to 10)
     const vx = Math.cos(angle) * speed; // Horizontal velocity
     const vy = -Math.abs(Math.sin(angle) * speed) - 2; // Stronger upward vertical velocity (additional -2 for upward boost)
