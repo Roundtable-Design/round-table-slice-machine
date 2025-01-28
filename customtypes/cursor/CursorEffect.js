@@ -4,6 +4,11 @@ import useMousePosition from "./utils/useMousePosition";
 import objectData from "./svgs/svgs.json";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Detect if user is on a mobile device
+const isMobileDevice = () => {
+  return /Mobi|Android/i.test(navigator.userAgent);
+};
+
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -13,48 +18,84 @@ function shuffleArray(array) {
 }
 
 export default function CursorEffect() {
-  const { x, y } = useMousePosition();
+  // Check if mobile
+  const mobile = isMobileDevice();
 
+  // 1. COMMON STATE: randomisedObjects
   const [randomizedObjects, setRandomizedObjects] = useState([]);
+  const [listOfPrinciples, setListOfPrinciples] = useState([]);
+  useEffect(() => {
+    const shuffled = shuffleArray([...Object.keys(objectData)]);
+    setRandomizedObjects(shuffled);
+    setListOfPrinciples(shuffled);
+  }, []);
+
+  // 2. MOBILE LOGIC: “Bouquet throw” with the randomised objects
+  const [bouquets, setBouquets] = useState([]);
+
+  // Throw “bouquets” (really, your random objects) on click/tap
+  const throwBouquet = (startX, startY) => {
+    const randomIndex = Math.floor(Math.random() * randomizedObjects.length);
+    const objKey = randomizedObjects[randomIndex];
+
+    const angle = Math.random() * Math.PI - Math.PI / 2; // Narrower upward angle (-30° to 30°)
+    const speed = Math.random() * 3 + 3; // Adjusted speed range (6 to 10)
+    const vx = Math.cos(angle) * speed; // Horizontal velocity
+    const vy = -Math.abs(Math.sin(angle) * speed) - 2; // Stronger upward vertical velocity (additional -2 for upward boost)
+
+    const newBouquet = {
+      id: `${objKey}-${Date.now()}-${Math.random()}`,
+      objectKey: objKey,
+      x: startX,
+      y: startY,
+      vx,
+      vy,
+    };
+
+    setBouquets((curr) => [...curr, newBouquet]);
+  };
+
+  // Animate the “thrown” objects each frame (only if mobile)
+  useEffect(() => {
+    if (!mobile) return;
+
+    let animationFrameId;
+
+    const animate = () => {
+      setBouquets(
+        (curr) =>
+          curr
+            .map((item) => ({
+              ...item,
+              x: item.x + item.vx, // Update horizontal position
+              y: item.y + item.vy, // Update vertical position
+              vy: item.vy + 0.5, // Apply gravity (adjust as needed)
+            }))
+            .filter((item) => item.y < window.innerHeight) // Remove objects below the screen
+      );
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [mobile]);
+
+  // 3. DESKTOP LOGIC: original swirling/following objects
+  const { x, y } = useMousePosition();
   const [isMouseMoving, setIsMouseMoving] = useState(false);
   const [convergingToMouse, setConvergingToMouse] = useState(false);
-  const [inStarShape, setInStarShape] = useState(true);
 
   const [targetPositions, setTargetPositions] = useState([]);
   const objectPositions = useRef({});
   const mouseStoppedTimeout = useRef(null);
 
-  // ---- Reintroduced states and timer logic from old version ----
   const [removeCursor, setRemoveCursor] = useState(true);
   const timerRef = useRef(null);
 
-  // This function re-shuffles the objects, as in old code
-  function shuffleAndSetObjects() {
-    const shuffledObjects = shuffleArray([...Object.keys(objectData)]);
-    setRandomizedObjects(shuffledObjects);
-  }
-
-  // Logic from old version: On mouse move, show cursor immediately, then after a delay hide it, then show again.
   function cursorMovement() {
-    // Cancel any existing timer
-    if (timerRef.current) clearTimeout(timerRef.current);
+    // On mobile, do nothing with the swirl logic
+    if (mobile) return;
 
-    // Immediately show cursor (if it was hidden) and stop any convergence
-    setRemoveCursor(true);
-    setConvergingToMouse(false);
-
-    // After some delay, start convergence and then hide
-    timerRef.current = setTimeout(() => {
-      setConvergingToMouse(true);
-      timerRef.current = setTimeout(() => {
-        setRemoveCursor(false);
-        shuffleAndSetObjects();
-      }, 750);
-    }, 2500);
-  }
-
-  // Logic from old version: On click, do the same as cursor movement
-  function cursorClick() {
     if (timerRef.current) clearTimeout(timerRef.current);
 
     setRemoveCursor(true);
@@ -64,21 +105,36 @@ export default function CursorEffect() {
       setConvergingToMouse(true);
       timerRef.current = setTimeout(() => {
         setRemoveCursor(false);
-        shuffleAndSetObjects();
       }, 750);
     }, 2500);
   }
 
-  // -------------------------------------------------------------
+  function cursorClick(event) {
+    const { clientX, clientY } = event;
+    // On mobile, we do the throw
+    if (mobile) {
+      throwBouquet(clientX, clientY);
+      return;
+    }
 
-  useEffect(() => {
-    const shuffledObjects = shuffleArray([...Object.keys(objectData)]);
-    setRandomizedObjects(shuffledObjects);
-  }, []);
+    // On desktop, the original swirl/ convergence
+    if (timerRef.current) clearTimeout(timerRef.current);
 
-  // Detect if mouse is moving or stopped.
+    setRemoveCursor(true);
+    setConvergingToMouse(false);
+
+    timerRef.current = setTimeout(() => {
+      setConvergingToMouse(true);
+      timerRef.current = setTimeout(() => {
+        setRemoveCursor(false);
+      }, 750);
+    }, 2500);
+  }
+
+  // On desktop, track mouse moving or stopped
   useEffect(() => {
-    function handleMouseMove(e) {
+    if (mobile) return;
+    function handleMouseMove() {
       setIsMouseMoving(true);
       if (mouseStoppedTimeout.current)
         clearTimeout(mouseStoppedTimeout.current);
@@ -86,69 +142,52 @@ export default function CursorEffect() {
         setIsMouseMoving(false);
       }, 50);
     }
-
     document.addEventListener("mousemove", handleMouseMove);
     return () => document.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [mobile]);
 
-  // When mouse stops, we start converging all objects to the mouse position.
-  // When mouse moves, objects just follow the mouse position.
+  // Star shape once objects converge
   useEffect(() => {
+    if (mobile) return;
     if (!isMouseMoving) {
-      if (!inStarShape) {
-        setConvergingToMouse(true);
-      }
+      setConvergingToMouse(true);
     } else {
       setConvergingToMouse(false);
-      setInStarShape(false);
     }
-  }, [isMouseMoving, inStarShape]);
+  }, [isMouseMoving, mobile]);
 
-  // Calculate the target positions based on current mode:
+  // Calculate target positions for the swirl
   useEffect(() => {
-    if (randomizedObjects.length === 0 || x === null || y === null) return;
+    if (mobile) return;
+    if (!randomizedObjects.length || x == null || y == null) return;
+    const positions = randomizedObjects.map((key, index) => {
+      const obj = objectData[key];
+      return {
+        id: key,
+        x: x - (index === 0 ? obj.width * 1.5 : 20),
+        y: y - (index === 0 ? obj.height * 1.5 : 20),
+      };
+    });
+    setTargetPositions(positions);
+  }, [randomizedObjects, x, y, mobile]);
 
-    if (inStarShape) {
-      // STAR SHAPE:
-      const a = 100;
-      const b = 15;
-      const rotationOffset = Math.PI / 4;
-
-      const positions = randomizedObjects.map((key, index) => {
-        if (index === 0) {
-          return {
-            id: key,
-            x: x - objectData[key].width * 1.5,
-            y: y - objectData[key].height * 1.5,
-          };
-        }
-        const angle = -index * 1.2 + rotationOffset;
-        const radius = a + b * Math.pow(index, 1.5);
-        return {
-          id: key,
-          x: x + radius * Math.cos(angle),
-          y: y + radius * Math.sin(angle),
-        };
-      });
-      setTargetPositions(positions);
-    } else {
-      // LINE/CONVERGING MODE:
-      const positions = randomizedObjects.map((key, index) => {
-        return {
-          id: key,
-          x: x - (index === 0 ? objectData[key].width * 1.5 : 20),
-          y: y - (index === 0 ? objectData[key].height * 1.5 : 20),
-        };
-      });
-      setTargetPositions(positions);
+  // Desktop mode switching
+  useEffect(() => {
+    if (!mobile) {
+      if (!isMouseMoving) {
+        setConvergingToMouse(true);
+      } else {
+        setConvergingToMouse(false);
+      }
     }
-  }, [randomizedObjects, x, y, inStarShape]);
+  }, [isMouseMoving]);
 
-  // Check for convergence when convergingToMouse is true.
+  // Check for convergence
   useEffect(() => {
+    if (mobile) return;
     if (!convergingToMouse) return;
-    if (randomizedObjects.length === 0) return;
-    if (x === null || y === null) return;
+    if (!randomizedObjects.length) return;
+    if (x == null || y == null) return;
 
     const checkConvergence = () => {
       const threshold = 10;
@@ -160,7 +199,7 @@ export default function CursorEffect() {
           allClose = false;
           break;
         }
-        const dist = Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
+        const dist = Math.sqrt((pos.x - x) ** 2 + (pos.y - y) ** 2);
         if (dist > threshold) {
           allClose = false;
           break;
@@ -168,23 +207,22 @@ export default function CursorEffect() {
       }
 
       if (allClose) {
-        setInStarShape(true);
         setConvergingToMouse(false);
       } else {
         requestAnimationFrame(checkConvergence);
       }
     };
+
     requestAnimationFrame(checkConvergence);
   }, [convergingToMouse, randomizedObjects, x, y]);
 
-  // Callback from FollowingObject to track current positions
+  //Track each FollowingObject’s position
   const handleObjectUpdate = (id, currentX, currentY) => {
     objectPositions.current[id] = { x: currentX, y: currentY };
   };
 
-  // Reintroduce event listeners for removeCursor logic:
+  // Attach the “mousemove” and “click” handlers to the document
   useEffect(() => {
-    // On component mount, set up the movement and click listeners
     document.addEventListener("mousemove", cursorMovement);
     document.addEventListener("click", cursorClick);
 
@@ -194,39 +232,71 @@ export default function CursorEffect() {
     };
   }, []);
 
+  // 4. RENDER
   return (
-    <AnimatePresence mode="wait">
-      {removeCursor && x !== null && y !== null && (
-        <motion.div id="main" className="bg-white text-black">
-          {randomizedObjects.map((key, index) => {
-            const obj = objectData[key];
-            const tp = targetPositions.find((p) => p.id === key) || { x, y };
+    <>
+      {/* Mobile: the thrown objects logic */}
+      {bouquets.map((bouquet) => {
+        const obj = objectData[bouquet.objectKey];
+        const sizeMultiplier = 2.5;
 
-            return (
-              <FollowingObject
-                key={key}
-                id={key}
-                movingSpeed={0.05 + index * 0.05} // different speeds
-                rotationSpeed={2}
-                width={
-                  index === 0 ? obj.width * 4 : obj.width * (2.5 - index * 0.3)
-                }
-                height={
-                  index === 0
-                    ? obj.height * 4
-                    : obj.height * (2.5 - index * 0.3)
-                }
-                viewBox={obj.viewBox}
-                paths={obj.paths}
-                x={tp.x}
-                y={tp.y}
-                fill={"#FFFFFF"}
-                onObjectUpdate={handleObjectUpdate}
-              />
-            );
-          })}
-        </motion.div>
+        return (
+          <FollowingObject
+            key={bouquet.id}
+            id={bouquet.objectKey}
+            movingSpeed={0.05}
+            rotationSpeed={1}
+            width={obj.width * sizeMultiplier}
+            height={obj.height * sizeMultiplier}
+            viewBox={obj.viewBox}
+            paths={obj.paths}
+            x={bouquet.x}
+            y={bouquet.y}
+            fill={"#FFFFFF"}
+          />
+        );
+      })}
+      {/* Desktop: the swirl logic */}
+      {!mobile && (
+        <AnimatePresence mode="wait">
+          {removeCursor && x !== null && y !== null && (
+            <motion.div id="main" className="bg-white text-black">
+              {randomizedObjects.map((key, index) => {
+                const obj = objectData[key];
+                const tp = targetPositions.find((p) => p.id === key) || {
+                  x,
+                  y,
+                };
+
+                return (
+                  <FollowingObject
+                    key={key}
+                    id={key}
+                    movingSpeed={0.05 + index * 0.05}
+                    rotationSpeed={2}
+                    width={
+                      index === 0
+                        ? obj.width * 4
+                        : obj.width * (2.5 - index * 0.3)
+                    }
+                    height={
+                      index === 0
+                        ? obj.height * 4
+                        : obj.height * (2.5 - index * 0.3)
+                    }
+                    viewBox={obj.viewBox}
+                    paths={obj.paths}
+                    x={tp.x}
+                    y={tp.y}
+                    fill={"#FFFFFF"}
+                    onObjectUpdate={handleObjectUpdate}
+                  />
+                );
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
       )}
-    </AnimatePresence>
+    </>
   );
 }
