@@ -4,6 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        <meta name="google-site-verification" content="7DkIWCYB2-_O5Ou64E0NTMkt1WW0NIH5Cd6apQzz_eo" />
         <script
           type="text/javascript"
           src="https://widget.clutch.co/static/js/widget.js"
