@@ -1,0 +1,3 @@
+# Proxy BfL tester signup to Vercel (Next.js basePath /bible-for-life-testing)
+/bible-for-life-testing    https://bible-for-life-testing.vercel.app/bible-for-life-testing  200
+/bible-for-life-testing/*  https://bible-for-life-testing.vercel.app/bible-for-life-testing/:splat  200
