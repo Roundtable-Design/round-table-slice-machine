@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/bible-for-life-testing"
+  to = "https://bible-for-life-testing.vercel.app/bible-for-life-testing"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/bible-for-life-testing/*"
+  to = "https://bible-for-life-testing.vercel.app/bible-for-life-testing/:splat"
+  status = 200
+  force = true
